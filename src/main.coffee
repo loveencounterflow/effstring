@@ -5,6 +5,21 @@
 D3F = require 'd3-format'
 urge = help = console.log
 rpr = ( x ) -> "#{x}"
+#===========================================================================================================
+class @Effstring_error extends Error
+  constructor: ( ref, message ) ->
+    super()
+    if ref is null
+      @message  = message
+      return undefined
+    @message  = "#{ref} (#{@constructor.name}) #{message}"
+    @ref      = ref
+    return undefined
+
+#-----------------------------------------------------------------------------------------------------------
+class Effstring_syntax_error extends @Effstring_error
+  constructor: ( ref, part ) -> super ref, "illegal format expression #{rpr part}"
+
 
 #===========================================================================================================
 format_re = ///
@@ -22,7 +37,7 @@ f = ( parts, expressions... ) ->
     #.....................................................................................................
     if part.startsWith ':'
       unless ( match = part.match format_re )?
-        throw new SyntaxError "Ω__14 illegal format expression #{rpr raw}"
+        throw new Effstring_syntax_error 'Ω___1', part
       { fmt, tail, } = match.groups
       fmt = fmt.replace /\\;/g, ';'
       R  += ( ( D3F.format fmt ) value ) + tail
