@@ -1,6 +1,6 @@
 {
   "name": "effstring",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Formatting of numbers and other values using a syntax similar to Python's f-strings",
   "main": "lib/main.js",
   "scripts": {
