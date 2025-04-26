@@ -17,9 +17,6 @@
 
 ## Demo
 
-```coffee
-urge 'Ω__17', rpr f"AAA#{1234.5678}:\\;>+20,.3f;D\t\\;DD#{98.76}:+7.2f;ZZZ"
-```
 
 
 | Input                        | Output                      | Notes                                         |
