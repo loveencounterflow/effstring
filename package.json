@@ -4,7 +4,7 @@
   "description": "Formatting of numbers and other values using a syntax similar to Python's f-strings",
   "main": "lib/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"clone loveencounterflow/hengist-NG, run nodexh hengist-NG/dev/effstring/lib/test-all.js\" && exit 1"
   },
   "keywords": [],
   "author": "",
