@@ -8,7 +8,7 @@ rpr                       = ( x ) -> ( require 'util' ).inspect x
 
 
 #===========================================================================================================
-class @Effstring_error extends Error
+class Effstring_error extends Error
   constructor: ( ref, message ) ->
     super()
     if ref is null
@@ -19,7 +19,7 @@ class @Effstring_error extends Error
     return undefined
 
 #-----------------------------------------------------------------------------------------------------------
-class Effstring_syntax_error extends @Effstring_error
+class Effstring_syntax_error extends Effstring_error
   constructor: ( ref, part ) -> super ref, "illegal format expression #{rpr part}"
 
 
@@ -51,6 +51,6 @@ f = ( parts, expressions... ) ->
 
 
 #===========================================================================================================
-module.exports = { f, }
+module.exports = { f, Effstring_error, Effstring_syntax_error, }
 
 
