@@ -58,6 +58,11 @@ f = ( parts, expressions... ) ->
 
 
 #===========================================================================================================
-module.exports = { f, Effstring_error, Effstring_syntax_error, }
+module.exports = {
+  f, \
+  _format_re: format_re, \
+  Effstring_error, \
+  Effstring_syntax_error, \
+  Effstring_lib_syntax_error, }
 
 
