@@ -21,7 +21,12 @@ class Effstring_error extends Error
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_error extends Effstring_error
-  constructor: ( ref, part ) -> super ref, "illegal format expression #{rpr part}"
+  constructor: ( ref, part, message ) -> super ref, message ? "illegal format expression #{rpr part}"
+
+#-----------------------------------------------------------------------------------------------------------
+class Effstring_lib_syntax_error extends Effstring_syntax_error
+  constructor: ( ref, part, error ) ->
+    super ref, part, "illegal format expression #{rpr part};\norginal error:\n#{error.stack}"
 
 
 #===========================================================================================================
@@ -43,7 +48,8 @@ f = ( parts, expressions... ) ->
         throw new Effstring_syntax_error 'Ω___1', part
       { fmt, tail, } = match.groups
       fmt = fmt.replace /\\;/g, ';'
-      R  += ( ( D3F.format fmt ) value ) + tail
+      try R  += ( ( D3F.format fmt ) value ) + tail catch error
+        throw new Effstring_lib_syntax_error 'Ω___2', fmt, error
     #.....................................................................................................
     else
       literal = if ( typeof value is 'string' ) then value else rpr value
