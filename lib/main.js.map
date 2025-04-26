@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "",
+  "sourceRoot": "",
+  "sources": [
+    "../src/main.coffee"
+  ],
+  "names": [],
+  "mappings": "AAEA;EAAA;AAAA,MAAA,GAAA,EAAA,CAAA,EAAA,SAAA,EAAA,IAAA,EAAA,GAAA,EAAA;;EAEA,GAAA,GAAM,OAAA,CAAQ,WAAR;;EACN,IAAA,GAAO,IAAA,GAAO,OAAO,CAAC;;EACtB,GAAA,GAAM,QAAA,CAAE,CAAF,CAAA;WAAS,CAAA,CAAA,CAAG,CAAH,CAAA;EAAT,EAJN;;;EAOA,SAAA,GAAY,oCAPZ;;;EAeA,CAAA,GAAI,QAAA,CAAE,KAAF,EAAA,GAAS,WAAT,CAAA;AACJ,QAAA,CAAA,EAAA,GAAA,EAAA,CAAA,EAAA,GAAA,EAAA,GAAA,EAAA,OAAA,EAAA,KAAA,EAAA,IAAA,EAAA,IAAA,EAAA;IAAE,CAAA,GAAI,KAAK,CAAE,CAAF;IACT,KAAA,yDAAA;;MACE,IAAA,GAAU,KAAK,CAAE,GAAA,GAAM,CAAR,EAAnB;;MAEI,IAAG,IAAI,CAAC,UAAL,CAAgB,GAAhB,CAAH;QACE,IAAO,uCAAP;UACE,MAAM,IAAI,WAAJ,CAAgB,CAAA,gCAAA,CAAA,CAAmC,GAAA,CAAI,GAAJ,CAAnC,CAAA,CAAhB,EADR;;QAEA,CAAA,CAAE,GAAF,EAAO,IAAP,CAAA,GAAiB,KAAK,CAAC,MAAvB;QACA,GAAA,GAAM,GAAG,CAAC,OAAJ,CAAY,MAAZ,EAAoB,GAApB;QACN,CAAA,IAAM,CAAE,CAAE,GAAG,CAAC,MAAJ,CAAW,GAAX,CAAF,CAAA,CAAmB,KAAnB,CAAF,CAAA,GAA+B,KALvC;OAAA,MAAA;;QAQE,OAAA,GAAa,CAAE,OAAO,KAAP,KAAgB,QAAlB,CAAH,GAAqC,KAArC,GAAgD,GAAA,CAAI,KAAJ;QAC1D,CAAA,IAAU,OAAA,GAAU,KATtB;;IAHF;AAaA,WAAO;EAfL,EAfJ;;;EAkCA,MAAM,CAAC,OAAP,GAAiB,CAAE,CAAF;AAlCjB",
+  "sourcesContent": [
+    "\n\n'use strict'\n\nD3F = require 'd3-format'\nurge = help = console.log\nrpr = ( x ) -> \"#{x}\"\n\n#===========================================================================================================\nformat_re = ///\n  ^:\n  (?<fmt>.+?(?<!\\\\));\n  (?<tail>.*)\n  $\n  ///\n\n#---------------------------------------------------------------------------------------------------------\nf = ( parts, expressions... ) ->\n  R = parts[ 0 ]\n  for value, idx in expressions\n    part    = parts[ idx + 1 ]\n    #.....................................................................................................\n    if part.startsWith ':'\n      unless ( match = part.match format_re )?\n        throw new SyntaxError \"Ω__14 illegal format expression #{rpr raw}\"\n      { fmt, tail, } = match.groups\n      fmt = fmt.replace /\\\\;/g, ';'\n      R  += ( ( D3F.format fmt ) value ) + tail\n    #.....................................................................................................\n    else\n      literal = if ( typeof value is 'string' ) then value else rpr value\n      R      += literal + part\n  return R\n\n\n#===========================================================================================================\nmodule.exports = { f, }\n\n\n"
+  ]
+}
