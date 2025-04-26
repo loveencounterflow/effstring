@@ -47,7 +47,6 @@ f = ( parts, expressions... ) ->
       unless ( match = part.match format_re )?
         throw new Effstring_syntax_error 'Ω___1', part
       { fmt, tail, } = match.groups
-      fmt = fmt.replace /\\;/g, ';'
       try R  += ( ( D3F.format fmt ) value ) + tail catch error
         throw new Effstring_lib_syntax_error 'Ω___2', fmt, error
     #.....................................................................................................
