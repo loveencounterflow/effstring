@@ -45,10 +45,10 @@ f = ( parts, expressions... ) ->
     #.....................................................................................................
     if part.startsWith ':'
       unless ( match = part.match format_re )?
-        throw new Effstring_syntax_error 'Ω___1', part
+        throw new Effstring_syntax_error 'Ωfstr___1', part
       { fmt, tail, } = match.groups
       try R  += ( ( D3F.format fmt ) value ) + tail catch error
-        throw new Effstring_lib_syntax_error 'Ω___2', fmt, error
+        throw new Effstring_lib_syntax_error 'Ωfstr___2', fmt, error
     #.....................................................................................................
     else
       literal = if ( typeof value is 'string' ) then value else rpr value
