@@ -2,9 +2,11 @@
 
 'use strict'
 
-D3F = require 'd3-format'
-urge = help = console.log
-rpr = ( x ) -> "#{x}"
+#===========================================================================================================
+D3F                       = require 'd3-format'
+rpr                       = ( x ) -> ( require 'util' ).inspect x
+
+
 #===========================================================================================================
 class @Effstring_error extends Error
   constructor: ( ref, message ) ->
