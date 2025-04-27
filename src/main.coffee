@@ -60,35 +60,37 @@ _locale_cfg_from_bcp47 = ( bcp47 ) ->
   return require "d3-format/locale/#{bcp47}"
 
 #---------------------------------------------------------------------------------------------------------
-new_locale = ( cfg_or_bcp47 ) ->
-  switch true
-    when types.isa.text cfg_or_bcp47 then cfg = _locale_cfg_from_bcp47  cfg_or_bcp47
-    when types.isa.pod  cfg_or_bcp47 then cfg =                         cfg_or_bcp47
-    else throw new Effstring_validation_error 'Ωfstr___4', "text or object", cfg_or_bcp47
-  return D3F.formatLocale cfg
+_hint_as_locale_cfg = ( hint ) ->
+  return _locale_cfg_from_bcp47  hint if types.isa.text hint
+  return                         hint if types.isa.pod  hint
+  throw new Effstring_validation_error 'Ωfstr___4', "text or object", hint
+
+#---------------------------------------------------------------------------------------------------------
+_format_cfg_from_hints = ( hints... ) ->
+  return Object.assign {}, ( ( _hint_as_locale_cfg hint ) for hint in hints )...
 
 #===========================================================================================================
-_format_re = ///
+_fmtspec_re = ///
   ^:
-  (?<fmt>;?[^;]+);
+  (?<fmtspec>;?[^;]+);
   (?<tail>.*)
   $
   ///
 
 #---------------------------------------------------------------------------------------------------------
-new_formatter = ( hint ) ->
-  format_fn = if ( types.isa.function hint ) then hint else ( new_locale hint ).format
+new_ftag = ( hints... ) ->
+  format_fn = ( D3F.formatLocale _format_cfg_from_hints hints... ).format
   return ( parts, expressions... ) ->
     R = parts[ 0 ]
     for value, idx in expressions
       part    = parts[ idx + 1 ]
       #.....................................................................................................
       if part.startsWith ':'
-        unless ( match = part.match _format_re )?
+        unless ( match = part.match _fmtspec_re )?
           throw new Effstring_syntax_error 'Ωfstr___2', part
-        { fmt, tail, } = match.groups
-        try R  += ( ( format_fn fmt ) value ) + tail catch error
-          throw new Effstring_lib_syntax_error 'Ωfstr___3', fmt, error
+        { fmtspec, tail, } = match.groups
+        try R  += ( ( format_fn fmtspec ) value ) + tail catch error
+          throw new Effstring_lib_syntax_error 'Ωfstr___3', fmtspec, error
       #.....................................................................................................
       else
         literal = if ( typeof value is 'string' ) then value else rpr value
@@ -96,18 +98,20 @@ new_formatter = ( hint ) ->
     return R
 
 #---------------------------------------------------------------------------------------------------------
-# f = new_formatter D3F.format
-f = new_formatter 'en-US'
+# f = new_ftag D3F.format
+f = new_ftag 'en-US'
 
 
 
 #===========================================================================================================
 module.exports = {
   f,
-  new_formatter,
-  new_locale,
+  new_ftag,
+  _d3_format: D3F,
+  _hint_as_locale_cfg,
   _locale_cfg_from_bcp47
-  _format_re,
+  _fmtspec_re,
+  _format_cfg_from_hints,
   Effstring_error,
   Effstring_syntax_error,
   Effstring_lib_syntax_error, }
