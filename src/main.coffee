@@ -4,7 +4,8 @@
 
 #===========================================================================================================
 D3F                       = require 'd3-format'
-{ log }                   = console
+{ log
+  debug }                 = console
 rpr                       = ( x ) -> ( require 'util' ).inspect x
 
 
