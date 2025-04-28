@@ -119,6 +119,7 @@ module.exports = {
   f,
   new_ftag,
   _d3_format: D3F,
+  _default_locale,
   _hint_as_locale_cfg,
   _locale_cfg_from_bcp47
   _fmtspec_re,
