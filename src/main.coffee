@@ -75,7 +75,7 @@ _locale_cfg_from_bcp47 = ( bcp47 ) ->
 _hint_as_locale_cfg = ( hint ) ->
   return _locale_cfg_from_bcp47  hint if types.isa.text hint
   return                         hint if types.isa.pod  hint
-  throw new Effstring_validation_error 'Ωfstr___4', "text or object", hint
+  throw new Effstring_validation_error 'Ωfstr___2', "text or object", hint
 
 #---------------------------------------------------------------------------------------------------------
 _format_cfg_from_hints = ( hints... ) ->
@@ -99,10 +99,10 @@ new_ftag = ( hints... ) ->
       #.....................................................................................................
       if part.startsWith ':'
         unless ( match = part.match _fmtspec_re )?
-          throw new Effstring_syntax_error 'Ωfstr___2', part
         { fmtspec, tail, } = match.groups
         try R  += ( ( format_fn fmtspec ) value ) + tail catch error
           throw new Effstring_lib_syntax_error 'Ωfstr___3', fmtspec, error
+          throw new Effstring_syntax_error 'Ωfstr___3', part
       #.....................................................................................................
       else
         literal = if ( typeof value is 'string' ) then value else rpr value
