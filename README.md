@@ -33,7 +33,6 @@ JavaScript:
 
 ```js
 const { f, } = require( 'effstring' );
-console.log( f`Max has ${1234}:$10,.00; in his pocket.` );
 console.log( f`${'Alice'}:*<15c; has ${1234}:_>$12,.00f; in their pocket.`   );
 console.log( f`${'Bob'}:*<15c; has ${45678.93}:_>$12,.00f; in their pocket.` );
 ```
