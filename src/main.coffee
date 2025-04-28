@@ -102,10 +102,20 @@ _to_width = ( text, width_of, fmt_cfg ) ->
         text = text[ 1 ... ]
     #.......................................................................................................
     when '^'
-      null
+      p = 0
+      loop
+        break unless ( width_of text ) > fmt_cfg.width
+        p++
+        if ( p %% 2 ) is 0
+          if text.startsWith fmt_cfg.fill       then text = text[ 1 ... ]
+          else if text.endsWith fmt_cfg.fill    then text = text[ ... text.length - 1 ]
+        else
+          if text.endsWith fmt_cfg.fill         then text = text[ ... text.length - 1 ]
+          else if text.startsWith fmt_cfg.fill  then text = text[ 1 ... ]
     #.......................................................................................................
     when '='
       null
+  #.........................................................................................................
   return text
 
 #-----------------------------------------------------------------------------------------------------------
