@@ -55,6 +55,17 @@ class Effstring_validation_error extends Effstring_error
 
 
 #===========================================================================================================
+_default_locale =
+  decimal:    '.'
+  thousands:  ','
+  grouping:   [ 3, ]
+  currency:   [ '$', '', ]
+  numerals:   [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ]
+  percent:    '%'
+  minus:      '−' # U+2212
+  nan:        'NaN'
+
+#===========================================================================================================
 _locale_cfg_from_bcp47 = ( bcp47 ) ->
   types.validate 'bcp47', bcp47
   return require "d3-format/locale/#{bcp47}"
@@ -67,7 +78,7 @@ _hint_as_locale_cfg = ( hint ) ->
 
 #---------------------------------------------------------------------------------------------------------
 _format_cfg_from_hints = ( hints... ) ->
-  return Object.assign {}, ( ( _hint_as_locale_cfg hint ) for hint in hints )...
+  return Object.assign {}, _default_locale, ( ( _hint_as_locale_cfg hint ) for hint in hints )...
 
 #===========================================================================================================
 _fmtspec_re = ///
