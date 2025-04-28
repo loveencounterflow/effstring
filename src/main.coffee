@@ -90,8 +90,29 @@ _fmtspec_re = ///
   ///
 
 #-----------------------------------------------------------------------------------------------------------
+_to_width = ( text, width_of, fmt_cfg ) ->
+  switch fmt_cfg.align
+    #.......................................................................................................
+    when '<'
+      while ( text.endsWith fmt_cfg.fill ) and ( width_of text ) > fmt_cfg.width
+        text = text[ ... text.length - 1 ]
+    #.......................................................................................................
+    when '>'
+      while ( text.startsWith fmt_cfg.fill ) and ( width_of text ) > fmt_cfg.width
+        text = text[ 1 ... ]
+    #.......................................................................................................
+    when '^'
+      null
+    #.......................................................................................................
+    when '='
+      null
+  return text
+
+#-----------------------------------------------------------------------------------------------------------
 new_ftag = ( hints... ) ->
-  format_fn = ( D3F.formatLocale _format_cfg_from_hints hints... ).format
+  locale_cfg  = _locale_cfg_from_hints hints...
+  format_fn   = ( D3F.formatLocale locale_cfg ).format
+  width_of    = locale_cfg.width_of ? null
   return ( parts, expressions... ) ->
     R = parts[ 0 ]
     for value, idx in expressions
@@ -99,10 +120,13 @@ new_ftag = ( hints... ) ->
       #.....................................................................................................
       if part.startsWith ':'
         unless ( match = part.match _fmtspec_re )?
-        { fmtspec, tail, } = match.groups
-        try R  += ( ( format_fn fmtspec ) value ) + tail catch error
-          throw new Effstring_lib_syntax_error 'Ωfstr___3', fmtspec, error
           throw new Effstring_syntax_error 'Ωfstr___3', part
+        { fmt_spec, tail, } = match.groups
+        try literal = ( ( format_fn fmt_spec ) value ) catch error
+          throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
+        if width_of? and ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
+          literal = _to_width literal, width_of, fmt_cfg
+        R += literal + tail
       #.....................................................................................................
       else
         literal = if ( typeof value is 'string' ) then value else rpr value
