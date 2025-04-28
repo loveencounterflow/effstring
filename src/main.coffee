@@ -78,13 +78,13 @@ _hint_as_locale_cfg = ( hint ) ->
   throw new Effstring_validation_error 'Ωfstr___2', "text or object", hint
 
 #---------------------------------------------------------------------------------------------------------
-_format_cfg_from_hints = ( hints... ) ->
+_locale_cfg_from_hints = ( hints... ) ->
   return Object.assign {}, _default_locale, ( ( _hint_as_locale_cfg hint ) for hint in hints )...
 
 #===========================================================================================================
 _fmtspec_re = ///
   ^:
-  (?<fmtspec>;?[^;]+);
+  (?<fmt_spec>;?[^;]+);
   (?<tail>.*)
   $
   ///
@@ -124,7 +124,7 @@ module.exports = {
   _hint_as_locale_cfg,
   _locale_cfg_from_bcp47
   _fmtspec_re,
-  _format_cfg_from_hints,
+  _locale_cfg_from_hints,
   Effstring_error,
   Effstring_syntax_error,
   Effstring_lib_syntax_error, }
