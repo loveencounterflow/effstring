@@ -51,6 +51,11 @@ class Effstring_lib_syntax_error extends Effstring_syntax_error
     super ref, part, "illegal format expression #{rpr part};\norginal error:\n#{error.stack}"
 
 #-----------------------------------------------------------------------------------------------------------
+class Effstring_syntax_fillwidth_error extends Effstring_syntax_error
+  constructor: ( ref, fmt_spec, fill ) ->
+    super ref, null, "illegal format expression #{rpr fmt_spec}: fill #{rpr fill} must be single-width character"
+
+#-----------------------------------------------------------------------------------------------------------
 class Effstring_validation_error extends Effstring_error
   constructor: ( ref, typename, x ) ->
     super ref, "expected a #{typename} got #{rpr x}"
@@ -135,6 +140,8 @@ new_ftag = ( hints... ) ->
         try literal = ( ( format_fn fmt_spec ) value ) catch error
           throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
         if ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
+          unless ( width_of fmt_cfg.fill ) is 1
+            throw new Effstring_syntax_fillwidth_error 'Ωfstr___5', fmt_spec, fmt_cfg.fill
           literal = _to_width literal, fmt_cfg
         R += literal + tail
       #.....................................................................................................
