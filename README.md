@@ -14,6 +14,9 @@
   - [Handling of 'Wide' Characters](#handling-of-wide-characters)
   - [Demo](#demo)
   - [Required NodeJS Version](#required-nodejs-version)
+  - [To Do](#to-do)
+  - [Is Done](#is-done)
+  - [Don't](#dont)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -181,6 +184,28 @@ Bob************ is in ...London... and has ____________£45,678.93 in their pock
 ボブさん******* is in ....倫敦.... and has ____四五,六七八.九三円 in their pocket.
 ```
 
+```coffee
+{ new_ftag, } = require 'effstring'
+zh_tw_cfg     =
+  currency: [ '新臺幣', '', ],
+f_en = new_ftag 'en-GB'
+f_zh = new_ftag 'zh-CN', zh_tw_cfg
+console.log f_en"#{-98765.43}:·>$20,.2f;"
+console.log f_zh"#{-98765.43}:·>$20,.2f;"
+console.log f_en"#{-98765.43}:·=$20,.2f;"
+console.log f_zh"#{-98765.43}:·=$20,.2f;"
+```
+
+Output:
+
+```
+·········−£98,765.43
+····−新臺幣98,765.43
+−£·········98,765.43
+−新臺幣····98,765.43
+```
+
+
 ## Demo
 
 
@@ -225,4 +250,19 @@ EffString relies on [`sindresorhus/string-width`](https://github.com/sindresorhu
 strings with fullwidth characters; since `string-width` is an ESM module but EffString uses CJS'
 `require()`, EffString needs at least NodeJS v22 (with `--experimental-require-module` command line flag) or
 v23 (without command line flag).
+
+## To Do
+
+* **`[—]`** cache intermediate values when handling fullwidth characters
+* **`[—]`** do not assume deletions can be performed per code unit in `_to_width()`
+
+## Is Done
+
+* **`[+]`** basic handling of fullwidth characters
+
+## Don't
+
+<del> **`[–]`** accept fullwidth characters as fills </del>
+
+
 
