@@ -13,6 +13,7 @@
   - [Pre-Defined Locales](#pre-defined-locales)
   - [Handling of 'Wide' Characters](#handling-of-wide-characters)
   - [Demo](#demo)
+  - [Required NodeJS Version](#required-nodejs-version)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -75,14 +76,17 @@ The general form of a specifier is:
 
 ## Locale Settings
 
-decimal - the decimal point (e.g., ".").
-thousands - the group separator (e.g., ",").
-grouping - the array of group sizes (e.g., [3]), cycled as needed.
-currency - the currency prefix and suffix (e.g., ["$", ""]).
-numerals - optional; an array of ten strings to replace the numerals 0-9.
-percent - optional; the percent sign (defaults to "%").
-minus - optional; the minus sign (defaults to "−").
-nan - optional; the not-a-number value (defaults "NaN").
+```coffee
+_default_locale =
+  decimal:    '.'                                                   # decimal point
+  thousands:  ','                                                   # group separator
+  grouping:   [ 3, ]                                                # array of group sizes, cycled as needed
+  currency:   [ '$', '', ]                                          # currency prefix and suffix
+  numerals:   [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ] # array of ten strings to replace digits 0-9
+  percent:    '%'                                                   # percent sign
+  minus:      '−' # U+2212                                          # minus sign
+  nan:        'NaN'                                                 # not-a-number value
+```
 
 ## Pre-Defined Locales
 
@@ -152,26 +156,29 @@ For the following locales, `d3-format` provides ready-made settings:
 
 ## Handling of 'Wide' Characters
 
-EffString by itself does not handle so-called ['wide' or (Asian) 'fullwidth'
-characters](https://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms) correctly because `d3-format` lacks
-that capability.
+EffString makes an effort to correctly handle so-called ['wide' or (Asian) 'fullwidth'
+characters](https://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms) (`d3-format` per se lacks that
+capability).
 
 ```coffee
+{ new_ftag, } = require 'effstring'
+ja_jp_cfg     = {
+  numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ], }
 f_en = new_ftag 'en-GB'
-f_ja = new_ftag 'ja-JP', numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ]
-console.log f_en"#{'Alice'}:*<15c; has #{1234}:_>$22,.2f; in their pocket."
-console.log f_en"#{'Bob'}:*<15c; has #{45678.93}:_>$22,.2f; in their pocket."
-console.log f_ja"#{'アリスさん'}:*<15c; has #{1234}:_>$22,.2f; in their pocket."
-console.log f_ja"#{'ボブさん'}:*<15c; has #{45678.93}:_>$22,.2f; in their pocket."
+f_ja = new_ftag 'ja-JP', ja_jp_cfg
+console.log f_en"#{'Alice'}:*<15c; is in #{'London'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
+console.log f_en"#{'Bob'}:*<15c; is in #{'London'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
+console.log f_ja"#{'アリスさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
+console.log f_ja"#{'ボブさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
 ```
 
 Output:
 
 ```
-Alice********** has _____________£1,234.00 in their pocket.
-Bob************ has ____________£45,678.93 in their pocket.
-アリスさん********** has _____________一,二三四.〇〇円 in their pocket.
-ボブさん*********** has ____________四五,六七八.九三円 in their pocket.
+Alice********** is in ...London... and has _____________£1,234.00 in their pocket.
+Bob************ is in ...London... and has ____________£45,678.93 in their pocket.
+アリスさん***** is in ....倫敦.... and has ______一,二三四.〇〇円 in their pocket.
+ボブさん******* is in ....倫敦.... and has ____四五,六七八.九三円 in their pocket.
 ```
 
 ## Demo
@@ -212,5 +219,10 @@ Bob************ has ____________£45,678.93 in their pocket.
 | `f"(#{123}:;)"` | `illegal format expression` |             |
 
 
+## Required NodeJS Version
 
+EffString relies on [`sindresorhus/string-width`](https://github.com/sindresorhus/string-width) to adjust
+strings with fullwidth characters; since `string-width` is an ESM module but EffString uses CJS'
+`require()`, EffString needs at least NodeJS v22 (with `--experimental-require-module` command line flag) or
+v23 (without command line flag).
 
