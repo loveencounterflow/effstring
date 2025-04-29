@@ -96,6 +96,11 @@ _fmtspec_re = ///
   ///
 
 #-----------------------------------------------------------------------------------------------------------
+_escape_regex = ( text ) ->
+  return text.replace ///[/\-\\^$*+?.()|[\]{}]///g, '\\$&'
+  # return text.replace ///[.*+?^${}()|[\\]\\\\]///g, '\\\\$&'
+
+#-----------------------------------------------------------------------------------------------------------
 _to_width = ( text, fmt_cfg ) ->
   ### TAINT assuming fmt_cfg.fill has length 1, but could be any length ###
   switch fmt_cfg.align
@@ -121,7 +126,14 @@ _to_width = ( text, fmt_cfg ) ->
           else if text.startsWith fmt_cfg.fill  then text = text[ 1 ... ]
     #.......................................................................................................
     when '='
-      null
+      break unless ( width_of text ) > fmt_cfg.width
+      fill_re = _escape_regex fmt_cfg.fill
+      matcher = /// ^ ( [^ #{fill_re} ]* ) #{fill_re} /// ### TAINT use unicode flag? ###
+      loop
+        shorter_text = text.replace matcher, '$1'
+        break if text is shorter_text
+        text = shorter_text
+        break unless ( width_of text ) > fmt_cfg.width
   #.........................................................................................................
   return text
 
