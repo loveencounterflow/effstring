@@ -6,7 +6,7 @@
 D3F                       = require 'd3-format'
 { log
   debug }                 = console
-rpr                       = ( x ) -> ( require 'util' ).inspect x
+rpr                       = ( x ) -> ( require 'loupe' ).inspect x
 { default: width_of, }    = require 'string-width'
 
 
