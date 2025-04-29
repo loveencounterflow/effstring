@@ -7,6 +7,7 @@ D3F                       = require 'd3-format'
 { log
   debug }                 = console
 rpr                       = ( x ) -> ( require 'util' ).inspect x
+{ default: width_of, }    = require 'string-width'
 
 
 #===========================================================================================================
@@ -90,7 +91,7 @@ _fmtspec_re = ///
   ///
 
 #-----------------------------------------------------------------------------------------------------------
-_to_width = ( text, width_of, fmt_cfg ) ->
+_to_width = ( text, fmt_cfg ) ->
   switch fmt_cfg.align
     #.......................................................................................................
     when '<'
@@ -122,7 +123,6 @@ _to_width = ( text, width_of, fmt_cfg ) ->
 new_ftag = ( hints... ) ->
   locale_cfg  = _locale_cfg_from_hints hints...
   format_fn   = ( D3F.formatLocale locale_cfg ).format
-  width_of    = locale_cfg.width_of ? null
   return ( parts, expressions... ) ->
     R = parts[ 0 ]
     for value, idx in expressions
@@ -134,8 +134,8 @@ new_ftag = ( hints... ) ->
         { fmt_spec, tail, } = match.groups
         try literal = ( ( format_fn fmt_spec ) value ) catch error
           throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
-        if width_of? and ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
-          literal = _to_width literal, width_of, fmt_cfg
+        if ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
+          literal = _to_width literal, fmt_cfg
         R += literal + tail
       #.....................................................................................................
       else
