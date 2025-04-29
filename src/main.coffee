@@ -43,7 +43,7 @@ class Effstring_error extends Error
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_error extends Effstring_error
-  constructor: ( ref, part, message ) -> super ref, message ? "illegal format expression #{rpr part}"
+  constructor: ( ref, part, message = null ) -> super ref, message ? "illegal format expression #{rpr part}"
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_lib_syntax_error extends Effstring_syntax_error
