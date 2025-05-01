@@ -162,11 +162,14 @@ For the following locales, `d3-format` provides ready-made settings:
 
 EffString makes an effort to correctly handle so-called ['wide' or (Asian) 'fullwidth'
 characters](https://en.wikipedia.org/wiki/Halfwidth_and_fullwidth_forms) (`d3-format` per se lacks that
-capability). As a small proof-of-concept code snippets demonstrates: ...
+capability). As the below proof-of-concept demonstrates, it's possible to mix CJK Kanji and Kana with
+'normal width' / 'halfwidth' characters and get adjusted fieldwidths (upper two blocks). In order to skip
+fullwidth processing, pass in `{ fullwidth: false, }` to `new_ftag()` (lower two blocks):
 
 ```coffee
 { new_ftag, } = require 'effstring'
-do=>
+
+do =>
   ja_jp_cfg     = {
     numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ], }
   f_en = new_ftag 'en-GB'
@@ -175,7 +178,8 @@ do=>
   console.log f_en"#{'Bob'}:*<15c; is in #{'London'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
   console.log f_ja"#{'アリスさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
   console.log f_ja"#{'ボブさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
-do=>
+
+do =>
   zh_tw_cfg     =
     currency: [ '新臺幣', '', ],
   f_en = new_ftag 'en-GB'
@@ -184,26 +188,8 @@ do=>
   console.log f_zh"#{-98765.43}:·>$20,.2f;"
   console.log f_en"#{-98765.43}:·=$20,.2f;"
   console.log f_zh"#{-98765.43}:·=$20,.2f;"
-```
 
-... it sort-of works:
-
-```
-Alice********** is in ...London... and has _____________£1,234.00 in their pocket.
-Bob************ is in ...London... and has ____________£45,678.93 in their pocket.
-アリスさん***** is in ....倫敦.... and has ______一,二三四.〇〇円 in their pocket.
-ボブさん******* is in ....倫敦.... and has ____四五,六七八.九三円 in their pocket.
-·········−£98,765.43
-····−新臺幣98,765.43
-−£·········98,765.43
-−新臺幣····98,765.43
-```
-
-In order to skip fullwidth processing, pass in `{ fullwidth: false, }` to `new_ftag()`:
-
-```coffee
 do =>
-  { new_ftag, } = require '../../../apps/effstring'
   ja_jp_cfg     = {
     numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ], }
   f_en = new_ftag 'en-GB',            { fullwidth: false, }
@@ -212,8 +198,8 @@ do =>
   console.log f_en"#{'Bob'}:*<15c; is in #{'London'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
   console.log f_ja"#{'アリスさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
   console.log f_ja"#{'ボブさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
+
 do =>
-  { new_ftag, } = require '../../../apps/effstring'
   zh_tw_cfg     = {
     currency: [ '新臺幣', '', ],
     # numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ],
@@ -226,9 +212,19 @@ do =>
   console.log f_zh"#{-98765.43}:·=$20,.2f;"
 ```
 
-This will produce:
+This will produce neatly adjusted fields even if it doesn't quite show here which is down to GitHub's choice
+of fonts:
 
 ```
+Alice********** is in ...London... and has _____________£1,234.00 in their pocket.
+Bob************ is in ...London... and has ____________£45,678.93 in their pocket.
+アリスさん***** is in ....倫敦.... and has ______一,二三四.〇〇円 in their pocket.
+ボブさん******* is in ....倫敦.... and has ____四五,六七八.九三円 in their pocket.
+·········−£98,765.43
+····−新臺幣98,765.43
+−£·········98,765.43
+−新臺幣····98,765.43
+
 Alice********** is in ...London... and has _____________£1,234.00 in their pocket.
 Bob************ is in ...London... and has ____________£45,678.93 in their pocket.
 アリスさん********** is in .....倫敦..... and has _____________一,二三四.〇〇円 in their pocket.
@@ -238,6 +234,10 @@ Bob************ is in ...London... and has ____________£45,678.93 in their pock
 −£·········98,765.43
 −新臺幣·······98,765.43
 ```
+
+It looks more better in the terminal which is the primary use case for handling fullwidth anyway; notice how
+in the upper two blocks everything lines up nicely whereas it doesn't in the lower two blocks which have
+`fullwidth` set to `false`:
 
 ![](artwork/east-asian-width.png)
 
