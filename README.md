@@ -165,14 +165,24 @@ capability).
 
 ```coffee
 { new_ftag, } = require 'effstring'
-ja_jp_cfg     = {
-  numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ], }
-f_en = new_ftag 'en-GB'
-f_ja = new_ftag 'ja-JP', ja_jp_cfg
-console.log f_en"#{'Alice'}:*<15c; is in #{'London'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
-console.log f_en"#{'Bob'}:*<15c; is in #{'London'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
-console.log f_ja"#{'アリスさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
-console.log f_ja"#{'ボブさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
+do=>
+  ja_jp_cfg     = {
+    numerals: [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九', ], }
+  f_en = new_ftag 'en-GB'
+  f_ja = new_ftag 'ja-JP', ja_jp_cfg
+  console.log f_en"#{'Alice'}:*<15c; is in #{'London'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
+  console.log f_en"#{'Bob'}:*<15c; is in #{'London'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
+  console.log f_ja"#{'アリスさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{1234}:_>$22,.2f; in their pocket."
+  console.log f_ja"#{'ボブさん'}:*<15c; is in #{'倫敦'}:.^12c; and has #{45678.93}:_>$22,.2f; in their pocket."
+do=>
+  zh_tw_cfg     =
+    currency: [ '新臺幣', '', ],
+  f_en = new_ftag 'en-GB'
+  f_zh = new_ftag 'zh-CN', zh_tw_cfg
+  console.log f_en"#{-98765.43}:·>$20,.2f;"
+  console.log f_zh"#{-98765.43}:·>$20,.2f;"
+  console.log f_en"#{-98765.43}:·=$20,.2f;"
+  console.log f_zh"#{-98765.43}:·=$20,.2f;"
 ```
 
 Output:
@@ -182,23 +192,6 @@ Alice********** is in ...London... and has _____________£1,234.00 in their pock
 Bob************ is in ...London... and has ____________£45,678.93 in their pocket.
 アリスさん***** is in ....倫敦.... and has ______一,二三四.〇〇円 in their pocket.
 ボブさん******* is in ....倫敦.... and has ____四五,六七八.九三円 in their pocket.
-```
-
-```coffee
-{ new_ftag, } = require 'effstring'
-zh_tw_cfg     =
-  currency: [ '新臺幣', '', ],
-f_en = new_ftag 'en-GB'
-f_zh = new_ftag 'zh-CN', zh_tw_cfg
-console.log f_en"#{-98765.43}:·>$20,.2f;"
-console.log f_zh"#{-98765.43}:·>$20,.2f;"
-console.log f_en"#{-98765.43}:·=$20,.2f;"
-console.log f_zh"#{-98765.43}:·=$20,.2f;"
-```
-
-Output:
-
-```
 ·········−£98,765.43
 ····−新臺幣98,765.43
 −£·········98,765.43
