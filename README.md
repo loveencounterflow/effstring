@@ -205,6 +205,8 @@ Output:
 −新臺幣····98,765.43
 ```
 
+![](artwork/east-asian-width.png)
+
 
 ## Demo
 
