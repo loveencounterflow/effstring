@@ -71,6 +71,7 @@ _default_locale =
   percent:    '%'
   minus:      '−' # U+2212
   nan:        'NaN'
+  fullwidth:  true
 
 #===========================================================================================================
 _locale_cfg_from_bcp47 = ( bcp47 ) ->
@@ -152,7 +153,7 @@ new_ftag = ( hints... ) ->
         { fmt_spec, tail, } = match.groups
         try literal = ( ( format_fn fmt_spec ) value ) catch error
           throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
-        if ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
+        if locale_cfg.fullwidth and ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
           unless ( width_of fmt_cfg.fill ) is 1
             throw new Effstring_syntax_fillwidth_error 'Ωfstr___5', fmt_spec, fmt_cfg.fill
           literal = _to_width literal, fmt_cfg
