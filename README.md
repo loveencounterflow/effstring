@@ -8,6 +8,7 @@
 
 - [EffString](#effstring)
   - [Simple Example](#simple-example)
+  - [API](#api)
   - [Format Specifier](#format-specifier)
   - [Locale Settings](#locale-settings)
   - [Pre-Defined Locales](#pre-defined-locales)
@@ -67,6 +68,29 @@ Bob************ has __$45,678.93 in their pocket.
 │ 20 characters left aligned
 │ filled with asterisks
 ```
+
+## API
+
+Calling `require 'effstring'` will return an object with these public members:
+
+*  **`f""`**: The default tag function (formatter) which assumes an `en-US` locale.
+*  **`new_ftag()`**: Method to create a new tag function with [custom locale settings](#locale-settings).
+*  **`Effstring_error`**: Abstract base class for errors thrown by `effstring`; actual errors will be either
+   `Effstring_syntax_error`, `Effstring_lib_syntax_error`, `Effstring_syntax_fillwidth_error`, or
+   `Effstring_validation_error` (also exported).
+
+The following are also exported but only meant for internal use such as testing:
+*  **`_d3_format`**: The underlying `d3-format` library that does the heavy lifting.
+*  **`_default_locale`**: The [default locale](#locale-settings).
+*  **`_hint_as_locale_cfg()`**: Given either an object or a BCP47 locale code such as `en-GB` or `ja-JP`,
+   return an object with the locale settings.
+*  **`_locale_cfg_from_bcp47()`**: Given a BCP47 locale code such as `en-GB` or `ja-JP`,
+   return an object with the locale settings.
+*  **`_locale_cfg_from_hints()`**: Given a sequence of locale hints (BCP47 codes or objects), resolve to a
+   complete locale settings object with defaults filled out; settings coming later will overwriter ones that
+   come earlier (using `Object.assign()`).
+*  **`_fmtspec_re`**: The regular expression used to spot the optional format specifier that may follow an
+   EffString interpolated field.
 
 ## Format Specifier
 
