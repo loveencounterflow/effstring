@@ -120,15 +120,15 @@ f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type]
               │ =    │ (                                                  │ r    │ /f
                                                                           │ s    │ /p
                                                                           │ %    │ /n
-* Symbols:                                                                │ p    │ /µ
-   ¤: any single-width Unicode BMP character                              │ b    │ /m
-   ␣: U+0020, space character                                             │ o    │ /1
-   ℕ: /[1-9][0-9]*/, an integer number                                    │ d    │ /k
-* other characters represent themselves;                                  │ x    │ /M
-* all fields are optional;                                                │ X    │ /G
-* a leading  fill chr must always be followed by an alignment specifier   │ c    │ /T
-                                                                                 │ /P
-                                                                                 │ /E
+                                                                          │ p    │ /µ
+* Symbols:                                                                │ b    │ /m
+   ¤: any single-width Unicode BMP character                              │ o    │ /1
+   ␣: U+0020, space character                                             │ d    │ /k
+   ℕ: /[1-9][0-9]*/, an integer number                                    │ x    │ /M
+* other characters represent themselves;                                  │ X    │ /G
+* all fields are optional;                                                │ c    │ /T
+* a leading  fill chr must always be followed by an alignment specifier            │ /P
+* a unit prefix can only be added to fixed format `f` (e.g. `f/µ` for micro)     │ /E
                                                                                  │ /Z
                                                                                  │ /Y
 ```
