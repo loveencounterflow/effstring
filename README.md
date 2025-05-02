@@ -100,21 +100,25 @@ The general shape of a format specifier is:
 
 f`${123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];` (JS)
 f"#{123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];" (CoffeeScript)
-             ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
-             │    │      │     │      │      │      │          │           │  │
-             │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ ℕ         │~ │ e
-                  │ ^    │ +   │ #                                            │ f
-                  │ >    │ -                                                  │ g
-                  │ =                                                         │ r
-                                                                              │ s
-                                                                              │ %
-                                                                              │ p
-                                                                              │ b
-                                                                              │ o
-                                                                              │ d
-                                                                              │ x
-                                                                              │ X
-                                                                              │ c
+               ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
+               │    │      │     │      │      │      │          │           │  │
+               │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ ℕ         │~ │ e
+                    │ ^    │ +   │ #                                            │ f
+                    │ >    │ -                                                  │ g
+                    │ =                                                         │ r
+                                                                                │ s
+                                                                                │ %
+Symbols:                                                                        │ p
+ ¤: any single-width BMP Unicode character                                      │ b
+ ␣: U+0020, space character                                                     │ o
+ ℕ: /[0-9]/+, an integer number                                                 │ d
+                                                                                │ x
+                                                                                │ X
+                                                                                │ c
+
+
+
+
 ```
 
 The available *type* values are:
