@@ -191,16 +191,13 @@ The available type specifiers are:
 * `r`: decimal notation, rounded to significant digits
 * `s`: decimal notation with an [SI prefix](https://d3js.org/d3-format#locale_formatPrefix), rounded to significant digits
 * `n`: shorthand for `,g`, that is, decimal or exponent notation with group separators
-
 * `%`: multiply by 100, and then decimal notation with a percent sign
 * `p`: multiply by 100, round to significant digits, and then decimal notation with a percent sign
-
 * `b`: binary notation, rounded to integer
 * `o`: octal notation, rounded to integer
 * `d`: decimal notation, rounded to integer
 * `x`: hexadecimal notation, using lower-case letters, rounded to integer
 * `X`: hexadecimal notation, using upper-case letters, rounded to integer
-
 * `c`: character data, for a string of text
 
 Leaving out the type specifier is treated as shorthand for `~g` (with a default precision of 12 instead of
