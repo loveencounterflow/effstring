@@ -111,7 +111,7 @@ f"#{123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~]
 Symbols:                                                                        │ p
  ¤: any single-width BMP Unicode character                                      │ b
  ␣: U+0020, space character                                                     │ o
- ℕ: /[0-9]/+, an integer number                                                 │ d
+ ℕ: /[1-9][0-9]*/, an integer number                                            │ d
                                                                                 │ x
                                                                                 │ X
                                                                                 │ c
