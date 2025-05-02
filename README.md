@@ -10,6 +10,16 @@
   - [Simple Example](#simple-example)
   - [API](#api)
   - [Format Specifier](#format-specifier)
+    - [Format Specifier: Fill](#format-specifier-fill)
+    - [Format Specifier: Align](#format-specifier-align)
+    - [Format Specifier: Sign](#format-specifier-sign)
+    - [Format Specifier: Symbol](#format-specifier-symbol)
+    - [Format Specifier: Zeros](#format-specifier-zeros)
+    - [Format Specifier: Width](#format-specifier-width)
+    - [Format Specifier: Thousands](#format-specifier-thousands)
+    - [Format Specifier: .precision](#format-specifier-precision)
+    - [Format Specifier: ~](#format-specifier-)
+    - [Format Specifier: Type](#format-specifier-type)
   - [Locale Settings](#locale-settings)
   - [Pre-Defined Locales](#pre-defined-locales)
   - [Handling of 'Wide' Characters](#handling-of-wide-characters)
@@ -94,7 +104,8 @@ The following are also exported but only meant for internal use such as testing:
 
 ## Format Specifier
 
-The general shape of a format specifier is:
+The general shape of a string literal with an EffString tag function and an interpolated value field
+is shown below.
 
 ```
 
@@ -105,7 +116,7 @@ f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type]
          │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e
               │ ^    │ +   │ #                                            │ f
               │ >    │ -                                                  │ g
-              │ =                                                         │ r
+              │ =    │ (                                                  │ r
                                                                           │ s
                                                                           │ %
 * Symbols:                                                                │ p
@@ -114,8 +125,47 @@ f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type]
    ℕ: /[1-9][0-9]*/, an integer number                                    │ d
 * other characters represent themselves;                                  │ x
 * all fields are optional;                                                │ X
-* a leading  fill chr must always be followed by an alignment symbol      │ c
+* a leading  fill chr must always be followed by an alignment specifier   │ c
 ```
+
+
+### Format Specifier: Fill
+
+The optional fill specifier, when present, must be a single-width character from the Unicode Basic
+Multilingual Plane (BMP); this includes code points between U+0000 thru U+ffff with the exception of CJK
+Ideographs (Hanzi, Kanji, Hanja) and any other fullwidth characters. When present, the fill character must
+always be followed by one of the alignment specifiers `<`, `^`, `>`, or `=`; thus, even characters like `;`
+and `<` are allowed fill specifiers as in `:;>10;` (fill `;`, alignment `>`, width `10`) and `:<>10;` (fill
+`<`, alignment `>`, width `10`).
+
+
+### Format Specifier: Align
+
+* `>`: right-aligned (default)
+* `<`: left-aligned
+* `^`: centered
+* `=`: right-aligned but with any sign and symbol to the *left* of any padding
+
+### Format Specifier: Sign
+
+* `-`: positive numbers get nothing, negatives ones get a minus sign (default)
+* `+`: positive numbers get a plus sign, negative ones get a minus sign
+* `(`: positive numbers get nothing, negatives ones get parentheses
+* `␣` (space) positive numbers get a space, negative numbers a minus sign
+
+
+
+### Format Specifier: Symbol
+
+* `$`: apply currency symbols per the locale definition
+* `#`: for binary, octal, or hexadecimal notation, prefix by `0b`, `0o`, or `0x`, respectively.
+
+### Format Specifier: Zeros
+### Format Specifier: Width
+### Format Specifier: Thousands
+### Format Specifier: .precision
+### Format Specifier: ~
+### Format Specifier: Type
 
 The available *type* values are:
 
@@ -352,6 +402,7 @@ v23 (without command line flag).
 
 * **`[—]`** cache intermediate values when handling fullwidth characters
 * **`[—]`** do not assume deletions can be performed per code unit in `_to_width()`
+* **`[—]`** allow to configure plus sign
 
 ## Is Done
 
