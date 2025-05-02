@@ -32,8 +32,9 @@ types =
 
 #===========================================================================================================
 class Effstring_error extends Error
-  constructor: ( ref, message ) ->
+  constructor: ( ref, message, cause = null ) ->
     super()
+    @cause = cause if cause?
     if ref is null
       @message  = message
       return undefined
@@ -43,12 +44,14 @@ class Effstring_error extends Error
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_error extends Effstring_error
-  constructor: ( ref, part, message = null ) -> super ref, message ? "illegal format expression #{rpr part}"
+  constructor: ( ref, part, message = null, cause = null ) ->
+    message ?= "illegal format expression #{rpr part}"
+    super ref, message, cause
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_lib_syntax_error extends Effstring_syntax_error
-  constructor: ( ref, part, error ) ->
-    super ref, part, "illegal format expression #{rpr part};\norginal error:\n#{error.stack}"
+  constructor: ( ref, part, cause ) ->
+    super ref, part, "illegal format expression #{rpr part}", cause
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_fillwidth_error extends Effstring_syntax_error
