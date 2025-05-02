@@ -174,14 +174,16 @@ f = new_ftag 'en-US'
 module.exports = {
   f,
   new_ftag,
+  Effstring_error,
+  Effstring_syntax_error,
+  Effstring_lib_syntax_error,
+  Effstring_syntax_fillwidth_error,
+  Effstring_validation_error,
   _d3_format: D3F,
   _default_locale,
   _hint_as_locale_cfg,
-  _locale_cfg_from_bcp47
+  _locale_cfg_from_bcp47,
   _fmtspec_re,
-  _locale_cfg_from_hints,
-  Effstring_error,
-  Effstring_syntax_error,
-  Effstring_lib_syntax_error, }
+  _locale_cfg_from_hints, }
 
 
