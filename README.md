@@ -18,7 +18,7 @@
     - [Format Specifier: Width](#format-specifier-width)
     - [Format Specifier: Thousands](#format-specifier-thousands)
     - [Format Specifier: Precision](#format-specifier-precision)
-    - [Format Specifier: ~](#format-specifier-)
+    - [Format Specifier: Trailing](#format-specifier-trailing)
     - [Format Specifier: Type](#format-specifier-type)
   - [Locale Settings](#locale-settings)
   - [Pre-Defined Locales](#pre-defined-locales)
@@ -180,7 +180,23 @@ width) enables the use of a group separator, such as a comma for thousands.
 
 
 ### Format Specifier: Precision
-### Format Specifier: ~
+
+Depending on the value of the `type` specifier, the `precision` specifier either indicates the number of
+digits that follow the decimal point (types `f` and `%`), or the number of significant digits (types `e`,
+`g`, `r`, `s` and `p`). If the precision is not specified, it defaults to 6 for all types except for the
+default type specifier, for which a precision of 12 is assumed.
+
+Precision is ignored for integer formats (types `b`, `o`, `d`, `x`, and `X`) and character data (type `c`).
+
+<!-- See [precisionFixed](https://d3js.org/d3-format#precisionFixed) and -->
+<!-- [precisionRound](https://d3js.org/d3-format#precisionRound) for help picking an appropriate precision. -->
+
+### Format Specifier: Trailing
+
+The `trailing` option is activated by a tilde `~` right in front of the `type` specifier. This is most
+commonly used in conjunction with types `r`, `e`, `s` and `%`. Its effect is to trim insignificant trailing
+zeros.
+
 ### Format Specifier: Type
 
 The available type specifiers are:
