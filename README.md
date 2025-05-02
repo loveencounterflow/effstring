@@ -94,12 +94,57 @@ The following are also exported but only meant for internal use such as testing:
 
 ## Format Specifier
 
-The general form of a specifier is:
+The general shape of a format specifier is:
 
 ```
-[[fill]align][sign][symbol][0][width][,][.precision][~][type]
+                0         1         2         3         4         5         6         7         8         9
+                0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+                  :[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];
+                     ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
+                     │    │      │␣    │      │      │      │          │           │  │
+                     │    │      │+    │      │      │      │,         │           │~ │ e
+                     │    │      │-    │      │      │      │          │           │  │ f
+                     │    │      │     │      │      │      │          │           │  │ g
+                     │    │      │     │      │      │      │          │           │  │ r
+                     │    │      │     │      │      │      │          │              │ s
+                     │    │      │     │      │      │      │          │              │ %
+                     │    │      │     │      │      │      │                         │ p
+                     │    │      │     │      │      │      │                         │ b
+                     │    │      │     │      │      │                                │ o
+                     │    │      │     │      │      │                                │ d
+                     │    │      │     │      │                                       │ x
+                     │    │      │     │      │                                       │ X
+                     │    │      │     │                                              │ c
+                     │    │      │     │
+                     │    │      │
+                     │    │      │
+                     │    │
+                     │    │
+                     │
+                     │
 ```
 
+The available *type* values are:
+
+-   `e` - exponent notation.
+-   `f` - fixed point notation.
+-   `g` - either decimal or exponent notation, rounded to significant digits.
+-   `r` - decimal notation, rounded to significant digits.
+-   `s` - decimal notation with an [SI prefix](https://d3js.org/d3-format#locale_formatPrefix), rounded to significant digits.
+-   `%` - multiply by 100, and then decimal notation with a percent sign.
+-   `p` - multiply by 100, round to significant digits, and then decimal notation with a percent sign.
+-   `b` - binary notation, rounded to integer.
+-   `o` - octal notation, rounded to integer.
+-   `d` - decimal notation, rounded to integer.
+-   `x` - hexadecimal notation, using lower-case letters, rounded to integer.
+-   `X` - hexadecimal notation, using upper-case letters, rounded to integer.
+-   `c` - character data, for a string of text.
+
+The type `​` (none) is also supported as shorthand for `~g` (with a default precision of 12 instead of 6),
+and the type `n` is shorthand for `,g`. For the `g`, `n` and `​` (none) types, decimal notation is used if
+the resulting string would have *precision* or fewer digits; otherwise, exponent notation is used. For
+example:
 
 ## Locale Settings
 
