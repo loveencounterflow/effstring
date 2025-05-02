@@ -433,8 +433,12 @@ v23 (without command line flag).
 ## To Do
 
 * **`[—]`** cache intermediate values when handling fullwidth characters
-* **`[—]`** do not assume deletions can be performed per code unit in `_to_width()`
 * **`[—]`** allow to configure plus sign
+* **`[—]`** in format specifier, make format `type` field mandatory and delete the passage above about it
+  being "treated as shorthand for `~g` (with a default precision of 12 instead of 6)" because no user is
+  ever going to grok and use it, and they have no reason to; they can still use `:.12~g;` if it's that what
+  they want
+* **`[—]`** consider to make other format specifier fields mandatory like the `type` field
 
 ## Is Done
 
@@ -442,7 +446,10 @@ v23 (without command line flag).
 
 ## Don't
 
-<del> **`[–]`** accept fullwidth characters as fills </del>
+* <del> **`[–]`** accept fullwidth characters as fills </del>
+* <del>**`[—]`** do not assume deletions can be performed per code unit in `_to_width()`</del> <ins>because
+  `d3-format` doesn't accept codepoints outside the BMP and because we chack for the fill character being
+  present we can actually assume a fill chr takes exactly a single string index position</ins>
 
 
 
