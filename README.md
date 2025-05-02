@@ -249,6 +249,16 @@ a slash `/` followed by one of the recognized unit symbols which are:
 * **`Z`**: zetta, 10²¹
 * **`Y`**: yotta, 10²⁴
 
+As an example, consider we have four measurements given in meters: `123000m`, `7000m`, `500m`, and `99m`;
+these should be printed but be represented in kilometers instead of meters; we choose fixed format `f` and
+prefix `/k`; the slash can be thought of as a division by the magnitude that `k` represents, namely 10³:
+
+```
+f"#{ 123000 }:_>9,.3f/m;m"  ————> __123.000km
+f"#{ 7000   }:_>9,.3f/m;m"  ————> ____7.000km
+f"#{ 500    }:_>9,.3f/m;m"  ————> ____0.500km
+f"#{ 99     }:_>9,.3f/m;m"  ————> ____0.099km
+```
 
 
 ## Locale Settings
