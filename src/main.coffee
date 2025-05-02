@@ -53,7 +53,7 @@ class Effstring_lib_syntax_error extends Effstring_syntax_error
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_fillwidth_error extends Effstring_syntax_error
   constructor: ( ref, fmt_spec, fill ) ->
-    super ref, null, "illegal format expression #{rpr fmt_spec}: fill #{rpr fill} must be single-width character"
+    super ref, null, "illegal format expression #{rpr fmt_spec}: fill #{rpr fill} must be single-width BMP character"
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_validation_error extends Effstring_error
