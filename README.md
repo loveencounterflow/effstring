@@ -114,19 +114,23 @@ f`${x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type]
 f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type][/unit];" (CoffeeScript)
          ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────  ┌────
          │    │      │     │      │      │      │          │           │  │      │
-         │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e    │ e
-              │ ^    │ +   │ #                                            │ f    │ f
-              │ >    │ -                                                  │ g    │ g
-              │ =    │ (                                                  │ r    │ r
-                                                                          │ s    │ s
-                                                                          │ %    │ %
-* Symbols:                                                                │ p    │ p
-   ¤: any single-width Unicode BMP character                              │ b    │ b
-   ␣: U+0020, space character                                             │ o    │ o
-   ℕ: /[1-9][0-9]*/, an integer number                                    │ d    │ d
-* other characters represent themselves;                                  │ x    │ x
-* all fields are optional;                                                │ X    │ X
-* a leading  fill chr must always be followed by an alignment specifier   │ c    │ c
+         │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e    │ /y
+              │ ^    │ +   │ #                                            │ f    │ /z
+              │ >    │ -                                                  │ g    │ /a
+              │ =    │ (                                                  │ r    │ /f
+                                                                          │ s    │ /p
+                                                                          │ %    │ /n
+* Symbols:                                                                │ p    │ /µ
+   ¤: any single-width Unicode BMP character                              │ b    │ /m
+   ␣: U+0020, space character                                             │ o    │ /1
+   ℕ: /[1-9][0-9]*/, an integer number                                    │ d    │ /k
+* other characters represent themselves;                                  │ x    │ /M
+* all fields are optional;                                                │ X    │ /G
+* a leading  fill chr must always be followed by an alignment specifier   │ c    │ /T
+                                                                                 │ /P
+                                                                                 │ /E
+                                                                                 │ /Z
+                                                                                 │ /Y
 ```
 
 
