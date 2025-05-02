@@ -441,6 +441,9 @@ v23 (without command line flag).
 * **`[—]`** consider to make other format specifier fields mandatory like the `type` field
 * **`[—]`** use `D3F.formatPrefix()` to implement units format type specifier as in
   `f"#{0.00042}:_<15,.3/µ;"`
+  * **`[—]`** may want to use `:...f/#{unit};` as in `f"#{0.00042}:_<15,.3f/µ;"`; that way users are
+    reminded that **(1)** SI-unit prefix format is based on fixed format (`f`) and **(2)** SI-unit prefix
+    format is really *in addition* to an existing type specifier, not a replacement for it
 
 ## Is Done
 
