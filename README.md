@@ -17,7 +17,7 @@
     - [Format Specifier: Zeros](#format-specifier-zeros)
     - [Format Specifier: Width](#format-specifier-width)
     - [Format Specifier: Thousands](#format-specifier-thousands)
-    - [Format Specifier: .precision](#format-specifier-precision)
+    - [Format Specifier: Precision](#format-specifier-precision)
     - [Format Specifier: ~](#format-specifier-)
     - [Format Specifier: Type](#format-specifier-type)
   - [Locale Settings](#locale-settings)
@@ -160,33 +160,52 @@ and `<` are allowed fill specifiers as in `:;>10;` (fill `;`, alignment `>`, wid
 * `$`: apply currency symbols per the locale definition
 * `#`: for binary, octal, or hexadecimal notation, prefix by `0b`, `0o`, or `0x`, respectively.
 
+
 ### Format Specifier: Zeros
+
+The `zeros` option is indicated by a digit zero `0` right *before* the digits of the width field and enables
+zero-padding (this implicitly sets `fill` to `0` and `align` to `=`).
+
+
 ### Format Specifier: Width
+
+The `width` defines the minimum field width; if not specified, then the width will be determined by the
+content.
+
+
 ### Format Specifier: Thousands
-### Format Specifier: .precision
+
+The `thousands` option (activated by the presence of a comma `,` right *behind* the digits indicating the
+width) enables the use of a group separator, such as a comma for thousands.
+
+
+### Format Specifier: Precision
 ### Format Specifier: ~
 ### Format Specifier: Type
 
-The available *type* values are:
+The available type specifiers are:
 
--   `e` - exponent notation.
--   `f` - fixed point notation.
--   `g` - either decimal or exponent notation, rounded to significant digits.
--   `r` - decimal notation, rounded to significant digits.
--   `s` - decimal notation with an [SI prefix](https://d3js.org/d3-format#locale_formatPrefix), rounded to significant digits.
--   `%` - multiply by 100, and then decimal notation with a percent sign.
--   `p` - multiply by 100, round to significant digits, and then decimal notation with a percent sign.
--   `b` - binary notation, rounded to integer.
--   `o` - octal notation, rounded to integer.
--   `d` - decimal notation, rounded to integer.
--   `x` - hexadecimal notation, using lower-case letters, rounded to integer.
--   `X` - hexadecimal notation, using upper-case letters, rounded to integer.
--   `c` - character data, for a string of text.
+* `e`: exponent notation
+* `f`: fixed point notation
+* `g`: either decimal or exponent notation, rounded to significant digits
+* `r`: decimal notation, rounded to significant digits
+* `s`: decimal notation with an [SI prefix](https://d3js.org/d3-format#locale_formatPrefix), rounded to significant digits
+* `n`: shorthand for `,g`, that is, decimal or exponent notation with group separators
 
-The type `​` (none) is also supported as shorthand for `~g` (with a default precision of 12 instead of 6),
-and the type `n` is shorthand for `,g`. For the `g`, `n` and `​` (none) types, decimal notation is used if
-the resulting string would have *precision* or fewer digits; otherwise, exponent notation is used. For
-example:
+* `%`: multiply by 100, and then decimal notation with a percent sign
+* `p`: multiply by 100, round to significant digits, and then decimal notation with a percent sign
+
+* `b`: binary notation, rounded to integer
+* `o`: octal notation, rounded to integer
+* `d`: decimal notation, rounded to integer
+* `x`: hexadecimal notation, using lower-case letters, rounded to integer
+* `X`: hexadecimal notation, using upper-case letters, rounded to integer
+
+* `c`: character data, for a string of text
+
+Leaving out the type specifier is treated as shorthand for `~g` (with a default precision of 12 instead of
+6). For the `g`, `n` and default types, decimal notation is used if the resulting string would have up to
+the number of digits indicated by the precision specifier; otherwise, exponent notation is used.
 
 ## Locale Settings
 
