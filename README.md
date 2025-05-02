@@ -159,7 +159,6 @@ and `<` are allowed fill specifiers as in `:;>10;` (fill `;`, alignment `>`, wid
 * **`␣`** (space) positive numbers get a space, negative numbers a minus sign
 
 
-
 ### Format Specifier: Symbol
 
 * **`$`**: apply currency symbols per the locale definition
@@ -202,6 +201,7 @@ The `trailing` option is activated by a tilde **`~`** right in front of the `typ
 commonly used in conjunction with types `r`, `e`, `s` and `%`. Its effect is to trim insignificant trailing
 zeros.
 
+
 ### Format Specifier: Type
 
 The available type specifiers are:
@@ -225,7 +225,11 @@ Leaving out the type specifier is treated as shorthand for `~g` (with a default 
 6). For the `g`, `n` and default types, decimal notation is used if the resulting string would have up to
 the number of digits indicated by the precision specifier; otherwise, exponent notation is used.
 
+
 ### Format Specifier: SI Unit Prefix
+
+In case format type specifier `f` is explicitly given, it is possible to specify an SI unit prefix by adding
+a slash `/` followed by one of the recognized unit symbols which are:
 
 * **`y`**: yocto, 10⁻²⁴
 * **`z`**: zepto, 10⁻²¹
@@ -244,6 +248,8 @@ the number of digits indicated by the precision specifier; otherwise, exponent n
 * **`E`**: exa, 10¹⁸
 * **`Z`**: zetta, 10²¹
 * **`Y`**: yotta, 10²⁴
+
+
 
 ## Locale Settings
 
