@@ -20,6 +20,7 @@
     - [Format Specifier: Precision](#format-specifier-precision)
     - [Format Specifier: Trailing](#format-specifier-trailing)
     - [Format Specifier: Type](#format-specifier-type)
+    - [Format Specifier: SI Unit Prefix](#format-specifier-si-unit-prefix)
   - [Locale Settings](#locale-settings)
   - [Pre-Defined Locales](#pre-defined-locales)
   - [Handling of 'Wide' Characters](#handling-of-wide-characters)
@@ -109,23 +110,23 @@ is shown below.
 
 ```
 
-f`${x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];` (JS)
-f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];" (CoffeeScript)
-         ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
-         │    │      │     │      │      │      │          │           │  │
-         │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e
-              │ ^    │ +   │ #                                            │ f
-              │ >    │ -                                                  │ g
-              │ =    │ (                                                  │ r
-                                                                          │ s
-                                                                          │ %
-* Symbols:                                                                │ p
-   ¤: any single-width Unicode BMP character                              │ b
-   ␣: U+0020, space character                                             │ o
-   ℕ: /[1-9][0-9]*/, an integer number                                    │ d
-* other characters represent themselves;                                  │ x
-* all fields are optional;                                                │ X
-* a leading  fill chr must always be followed by an alignment specifier   │ c
+f`${x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type][/unit];` (JS)
+f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type][/unit];" (CoffeeScript)
+         ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────  ┌────
+         │    │      │     │      │      │      │          │           │  │      │
+         │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e    │ e
+              │ ^    │ +   │ #                                            │ f    │ f
+              │ >    │ -                                                  │ g    │ g
+              │ =    │ (                                                  │ r    │ r
+                                                                          │ s    │ s
+                                                                          │ %    │ %
+* Symbols:                                                                │ p    │ p
+   ¤: any single-width Unicode BMP character                              │ b    │ b
+   ␣: U+0020, space character                                             │ o    │ o
+   ℕ: /[1-9][0-9]*/, an integer number                                    │ d    │ d
+* other characters represent themselves;                                  │ x    │ x
+* all fields are optional;                                                │ X    │ X
+* a leading  fill chr must always be followed by an alignment specifier   │ c    │ c
 ```
 
 
@@ -141,30 +142,30 @@ and `<` are allowed fill specifiers as in `:;>10;` (fill `;`, alignment `>`, wid
 
 ### Format Specifier: Align
 
-* `>`: right-aligned (default)
-* `<`: left-aligned
-* `^`: centered
-* `=`: right-aligned but with any sign and symbol to the *left* of any padding
+* **`>`**: right-aligned (default)
+* **`<`**: left-aligned
+* **`^`**: centered
+* **`=`**: right-aligned but with any sign and symbol to the *left* of any padding
 
 ### Format Specifier: Sign
 
-* `-`: positive numbers get nothing, negatives ones get a minus sign (default)
-* `+`: positive numbers get a plus sign, negative ones get a minus sign
-* `(`: positive numbers get nothing, negatives ones get parentheses
-* `␣` (space) positive numbers get a space, negative numbers a minus sign
+* **`-`**: positive numbers get nothing, negatives ones get a minus sign (default)
+* **`+`**: positive numbers get a plus sign, negative ones get a minus sign
+* **`(`**: positive numbers get nothing, negatives ones get parentheses
+* **`␣`** (space) positive numbers get a space, negative numbers a minus sign
 
 
 
 ### Format Specifier: Symbol
 
-* `$`: apply currency symbols per the locale definition
-* `#`: for binary, octal, or hexadecimal notation, prefix by `0b`, `0o`, or `0x`, respectively.
+* **`$`**: apply currency symbols per the locale definition
+* **`#`**: for binary, octal, or hexadecimal notation, prefix by `0b`, `0o`, or `0x`, respectively.
 
 
 ### Format Specifier: Zeros
 
-The `zeros` option is indicated by a digit zero `0` right *before* the digits of the width field and enables
-zero-padding (this implicitly sets `fill` to `0` and `align` to `=`).
+The `zeros` option is indicated by a digit zero **`0`** right *before* the digits of the width field and
+enables zero-padding (this implicitly sets `fill` to `0` and `align` to `=`).
 
 
 ### Format Specifier: Width
@@ -175,8 +176,8 @@ content.
 
 ### Format Specifier: Thousands
 
-The `thousands` option (activated by the presence of a comma `,` right *behind* the digits indicating the
-width) enables the use of a group separator, such as a comma for thousands.
+The `thousands` option (activated by the presence of a comma **`,`** right *behind* the digits indicating
+the width) enables the use of a group separator, such as a comma for thousands.
 
 
 ### Format Specifier: Precision
@@ -193,7 +194,7 @@ Precision is ignored for integer formats (types `b`, `o`, `d`, `x`, and `X`) and
 
 ### Format Specifier: Trailing
 
-The `trailing` option is activated by a tilde `~` right in front of the `type` specifier. This is most
+The `trailing` option is activated by a tilde **`~`** right in front of the `type` specifier. This is most
 commonly used in conjunction with types `r`, `e`, `s` and `%`. Its effect is to trim insignificant trailing
 zeros.
 
@@ -201,24 +202,44 @@ zeros.
 
 The available type specifiers are:
 
-* `e`: exponent notation
-* `f`: fixed point notation
-* `g`: either decimal or exponent notation, rounded to significant digits
-* `r`: decimal notation, rounded to significant digits
-* `s`: decimal notation with an [SI prefix](https://d3js.org/d3-format#locale_formatPrefix), rounded to significant digits
-* `n`: shorthand for `,g`, that is, decimal or exponent notation with group separators
-* `%`: multiply by 100, and then decimal notation with a percent sign
-* `p`: multiply by 100, round to significant digits, and then decimal notation with a percent sign
-* `b`: binary notation, rounded to integer
-* `o`: octal notation, rounded to integer
-* `d`: decimal notation, rounded to integer
-* `x`: hexadecimal notation, using lower-case letters, rounded to integer
-* `X`: hexadecimal notation, using upper-case letters, rounded to integer
-* `c`: character data, for a string of text
+* **`e`**: exponent notation
+* **`f`**: fixed point notation
+* **`g`**: either decimal or exponent notation, rounded to significant digits
+* **`r`**: decimal notation, rounded to significant digits
+* **`s`**: decimal notation with an [SI prefix](https://d3js.org/d3-format#locale_formatPrefix), rounded to significant digits
+* **`n`**: shorthand for `,g`, that is, decimal or exponent notation with group separators
+* **`%`**: multiply by 100, and then decimal notation with a percent sign
+* **`p`**: multiply by 100, round to significant digits, and then decimal notation with a percent sign
+* **`b`**: binary notation, rounded to integer
+* **`o`**: octal notation, rounded to integer
+* **`d`**: decimal notation, rounded to integer
+* **`x`**: hexadecimal notation, using lower-case letters, rounded to integer
+* **`X`**: hexadecimal notation, using upper-case letters, rounded to integer
+* **`c`**: character data, for a string of text
 
 Leaving out the type specifier is treated as shorthand for `~g` (with a default precision of 12 instead of
 6). For the `g`, `n` and default types, decimal notation is used if the resulting string would have up to
 the number of digits indicated by the precision specifier; otherwise, exponent notation is used.
+
+### Format Specifier: SI Unit Prefix
+
+* **`y`**: yocto, 10⁻²⁴
+* **`z`**: zepto, 10⁻²¹
+* **`a`**: atto, 10⁻¹⁸
+* **`f`**: femto, 10⁻¹⁵
+* **`p`**: pico, 10⁻¹²
+* **`n`**: nano, 10⁻⁹
+* **`µ`**: micro, 10⁻⁶
+* **`m`**: milli, 10⁻³
+* **`1`**: unit, 10⁰
+* **`k`**: kilo, 10³
+* **`M`**: mega, 10⁶
+* **`G`**: giga, 10⁹
+* **`T`**: tera, 10¹²
+* **`P`**: peta, 10¹⁵
+* **`E`**: exa, 10¹⁸
+* **`Z`**: zetta, 10²¹
+* **`Y`**: yotta, 10²⁴
 
 ## Locale Settings
 
@@ -439,15 +460,15 @@ v23 (without command line flag).
   ever going to grok and use it, and they have no reason to; they can still use `:.12~g;` if it's that what
   they want
 * **`[—]`** consider to make other format specifier fields mandatory like the `type` field
-* **`[—]`** use `D3F.formatPrefix()` to implement units format type specifier as in
-  `f"#{0.00042}:_<15,.3/µ;"`
-  * **`[—]`** may want to use `:...f/#{unit};` as in `f"#{0.00042}:_<15,.3f/µ;"`; that way users are
-    reminded that **(1)** SI-unit prefix format is based on fixed format (`f`) and **(2)** SI-unit prefix
-    format is really *in addition* to an existing type specifier, not a replacement for it
 
 ## Is Done
 
 * **`[+]`** basic handling of fullwidth characters
+* **`[+]`** use `D3F.formatPrefix()` to implement units format type specifier as in
+  `f"#{0.00042}:_<15,.3/µ;"`
+  * **`[+]`** may want to use `:...f/#{unit};` as in `f"#{0.00042}:_<15,.3f/µ;"`; that way users are
+    reminded that **(1)** SI-unit prefix format is based on fixed format (`f`) and **(2)** SI-unit prefix
+    format is really *in addition* to an existing type specifier, not a replacement for it
 
 ## Don't
 
