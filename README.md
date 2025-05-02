@@ -98,7 +98,8 @@ The general shape of a format specifier is:
 
 ```
 
-#{123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];
+f`${123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];` (JS)
+f"#{123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];" (CoffeeScript)
              ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
              │    │      │     │      │      │      │          │           │  │
              │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ ℕ         │~ │ e
