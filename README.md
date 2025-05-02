@@ -439,6 +439,8 @@ v23 (without command line flag).
   ever going to grok and use it, and they have no reason to; they can still use `:.12~g;` if it's that what
   they want
 * **`[—]`** consider to make other format specifier fields mandatory like the `type` field
+* **`[—]`** use `D3F.formatPrefix()` to implement units format type specifier as in
+  `f"#{0.00042}:_<15,.3/µ;"`
 
 ## Is Done
 
