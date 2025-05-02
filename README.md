@@ -108,17 +108,13 @@ f"#{123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~]
                     │ =                                                         │ r
                                                                                 │ s
                                                                                 │ %
-Symbols:                                                                        │ p
- ¤: any single-width BMP Unicode character                                      │ b
- ␣: U+0020, space character                                                     │ o
- ℕ: /[1-9][0-9]*/, an integer number                                            │ d
-                                                                                │ x
-                                                                                │ X
-                                                                                │ c
-
-
-
-
+* Symbols:                                                                      │ p
+   ¤: any single-width Unicode BMP character                                    │ b
+   ␣: U+0020, space character                                                   │ o
+   ℕ: /[1-9][0-9]*/, an integer number                                          │ d
+* other characters represent themselves;                                        │ x
+* all fields are optional;                                                      │ X
+* a leading  fill chr must always be followed by alignment symbol               │ c
 ```
 
 The available *type* values are:
