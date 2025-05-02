@@ -100,27 +100,52 @@ _fmtspec_re = ///
   ///
 
 #-----------------------------------------------------------------------------------------------------------
+_fmtspec_unit_re = /// f (?<discard> \/ (?<unit> [yzafpnµm1kMGTPEZY] ) ) $ ///
+
+#-----------------------------------------------------------------------------------------------------------
+_unit_magnitudes = Object.freeze
+  'y':  1e-24
+  'z':  1e-21
+  'a':  1e-18
+  'f':  1e-15
+  'p':  1e-12
+  'n':  1e-09
+  'µ':  1e-06
+  'm':  1e-03
+  '1':  1e+00
+  'k':  1e+03
+  'M':  1e+06
+  'G':  1e+09
+  'T':  1e+12
+  'P':  1e+15
+  'E':  1e+18
+  'Z':  1e+21
+  'Y':  1e+24
+
+#-----------------------------------------------------------------------------------------------------------
 _escape_regex = ( text ) ->
   return text.replace ///[/\-\\^$*+?.()|[\]{}]///g, '\\$&'
   # return text.replace ///[.*+?^${}()|[\\]\\\\]///g, '\\\\$&'
 
 #-----------------------------------------------------------------------------------------------------------
-_to_width = ( text, fmt_cfg ) ->
+_to_width = ( text, fmt_cfg, has_si_unit_prefix ) ->
   ### TAINT assuming fmt_cfg.fill has length 1, but could be any length ###
+  si_unit_correction  = if has_si_unit_prefix then 1 else 0
+  field_width         = fmt_cfg.width + si_unit_correction
   switch fmt_cfg.align
     #.......................................................................................................
     when '<'
-      while ( text.endsWith fmt_cfg.fill ) and ( width_of text ) > fmt_cfg.width
+      while ( text.endsWith fmt_cfg.fill ) and ( width_of text ) > field_width
         text = text[ ... text.length - 1 ]
     #.......................................................................................................
     when '>'
-      while ( text.startsWith fmt_cfg.fill ) and ( width_of text ) > fmt_cfg.width
+      while ( text.startsWith fmt_cfg.fill ) and ( width_of text ) > field_width
         text = text[ 1 ... ]
     #.......................................................................................................
     when '^'
       p = 0
       loop
-        break unless ( width_of text ) > fmt_cfg.width
+        break unless ( width_of text ) > field_width
         p++
         if ( p %% 2 ) is 0
           if text.startsWith fmt_cfg.fill       then text = text[ 1 ... ]
@@ -130,21 +155,21 @@ _to_width = ( text, fmt_cfg ) ->
           else if text.startsWith fmt_cfg.fill  then text = text[ 1 ... ]
     #.......................................................................................................
     when '='
-      break unless ( width_of text ) > fmt_cfg.width
+      break unless ( width_of text ) > field_width
       fill_re = _escape_regex fmt_cfg.fill
       matcher = /// ^ ( [^ #{fill_re} ]* ) #{fill_re} /// ### TAINT use unicode flag? ###
       loop
         shorter_text = text.replace matcher, '$1'
         break if text is shorter_text
         text = shorter_text
-        break unless ( width_of text ) > fmt_cfg.width
+        break unless ( width_of text ) > field_width
   #.........................................................................................................
   return text
 
 #-----------------------------------------------------------------------------------------------------------
 new_ftag = ( hints... ) ->
   locale_cfg  = _locale_cfg_from_hints hints...
-  format_fn   = ( D3F.formatLocale locale_cfg ).format
+  locale      = D3F.formatLocale locale_cfg
   return ( parts, expressions... ) ->
     R = parts[ 0 ]
     for value, idx in expressions
@@ -154,12 +179,28 @@ new_ftag = ( hints... ) ->
         unless ( match = part.match _fmtspec_re )?
           throw new Effstring_syntax_error 'Ωfstr___3', part
         { fmt_spec, tail, } = match.groups
-        try literal = ( ( format_fn fmt_spec ) value ) catch error
-          throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
+        #...................................................................................................
+        ### Handle SI unit prefix specifier: ###
+        if ( unit_match = fmt_spec.match _fmtspec_unit_re )?
+          has_si_unit_prefix  = true
+          { discard, unit,  } = unit_match.groups
+          fmt_spec = fmt_spec[ ... fmt_spec.length - discard.length ]
+          try literal = ( ( locale.formatPrefix fmt_spec, _unit_magnitudes[ unit ] ) value ) catch error
+            throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
+        #...................................................................................................
+        ### Handle format specifiers without SI unit prefix: ###
+        else
+          has_si_unit_prefix  = false
+          try literal = ( ( locale.format fmt_spec ) value ) catch error
+            throw new Effstring_lib_syntax_error 'Ωfstr___5', fmt_spec, error
+        #...................................................................................................
+        ### Correct field width: ###
         if locale_cfg.fullwidth and ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
+          ### TAINT this should have been validated earlier ###
           unless ( width_of fmt_cfg.fill ) is 1
-            throw new Effstring_syntax_fillwidth_error 'Ωfstr___5', fmt_spec, fmt_cfg.fill
-          literal = _to_width literal, fmt_cfg
+            throw new Effstring_syntax_fillwidth_error 'Ωfstr___6', fmt_spec, fmt_cfg.fill
+          literal = _to_width literal, fmt_cfg, has_si_unit_prefix
+        #...................................................................................................
         R += literal + tail
       #.....................................................................................................
       else
@@ -187,6 +228,8 @@ module.exports = {
   _hint_as_locale_cfg,
   _locale_cfg_from_bcp47,
   _fmtspec_re,
-  _locale_cfg_from_hints, }
+  _fmtspec_unit_re,
+  _locale_cfg_from_hints,
+  _unit_magnitudes, }
 
 
