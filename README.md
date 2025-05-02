@@ -97,32 +97,23 @@ The following are also exported but only meant for internal use such as testing:
 The general shape of a format specifier is:
 
 ```
-                0         1         2         3         4         5         6         7         8         9
-                0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-                  :[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];
-                     ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
-                     │    │      │     │      │      │      │          │           │  │
-                     │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ ℕ         │~ │ e
-                     │    │ ^    │ +   │ #    │      │      │          │           │  │ f
-                     │    │ >    │ -   │      │      │      │          │           │  │ g
-                     │    │ =    │     │      │      │      │          │           │  │ r
-                     │    │      │     │      │      │      │          │              │ s
-                     │    │      │     │      │      │      │          │              │ %
-                     │    │      │     │      │      │      │                         │ p
-                     │    │      │     │      │      │      │                         │ b
-                     │    │      │     │      │      │                                │ o
-                     │    │      │     │      │      │                                │ d
-                     │    │      │     │      │                                       │ x
-                     │    │      │     │      │                                       │ X
-                     │    │      │     │                                              │ c
-                     │    │      │     │
-                     │    │      │
-                     │    │      │
-                     │    │
-                     │    │
-                     │
-                     │
+#{123.456}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type];
+             ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────
+             │    │      │     │      │      │      │          │           │  │
+             │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ ℕ         │~ │ e
+                  │ ^    │ +   │ #                                            │ f
+                  │ >    │ -                                                  │ g
+                  │ =                                                         │ r
+                                                                              │ s
+                                                                              │ %
+                                                                              │ p
+                                                                              │ b
+                                                                              │ o
+                                                                              │ d
+                                                                              │ x
+                                                                              │ X
+                                                                              │ c
 ```
 
 The available *type* values are:
