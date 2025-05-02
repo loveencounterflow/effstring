@@ -45,18 +45,18 @@ class Effstring_error extends Error
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_error extends Effstring_error
   constructor: ( ref, part, message = null, cause = null ) ->
-    message ?= "illegal format expression #{rpr part}"
+    message ?= "illegal format specifier #{rpr part}"
     super ref, message, cause
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_lib_syntax_error extends Effstring_syntax_error
   constructor: ( ref, part, cause ) ->
-    super ref, part, "illegal format expression #{rpr part}", cause
+    super ref, part, "illegal format specifier #{rpr part}", cause
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_syntax_fillwidth_error extends Effstring_syntax_error
   constructor: ( ref, fmt_spec, fill ) ->
-    super ref, null, "illegal format expression #{rpr fmt_spec}: fill #{rpr fill} must be single-width BMP character"
+    super ref, null, "illegal format specifier #{rpr fmt_spec}: fill #{rpr fill} must be single-width BMP character"
 
 #-----------------------------------------------------------------------------------------------------------
 class Effstring_validation_error extends Effstring_error
