@@ -110,27 +110,27 @@ is shown below.
 
 ```
 
-f`${x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type][/unit];` (JS)
-f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type][/unit];" (CoffeeScript)
-         ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌────  ┌────
-         │    │      │     │      │      │      │          │           │  │      │
-         │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e    │ /y
-              │ ^    │ +   │ #                                            │ f    │ /z
-              │ >    │ -                                                  │ g    │ /a
-              │ =    │ (                                                  │ r    │ /f
-                                                                          │ s    │ /p
-                                                                          │ %    │ /n
-                                                                          │ p    │ /µ
-* Symbols:                                                                │ b    │ /m
-   ¤: any single-width Unicode BMP character                              │ o    │ /1
-   ␣: U+0020, space character                                             │ d    │ /k
-   ℕ: /[1-9][0-9]*/, an integer number                                    │ x    │ /M
-* other characters represent themselves;                                  │ X    │ /G
-* all fields are optional;                                                │ c    │ /T
-* a leading  fill chr must always be followed by an alignment specifier            │ /P
-* a unit prefix can only be added to fixed format `f` (e.g. `f/µ` for micro)     │ /E
-                                                                                 │ /Z
-                                                                                 │ /Y
+f`${x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type[/unit]];` (JS)
+f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type[/unit]];" (CoffeeScript)
+         ┌─── ┌────  ┌───  ┌───── ┌───── ┌───── ┌───────── ┌────────── ┌─ ┌──── ┌────
+         │    │      │     │      │      │      │          │           │  │     │
+         │ ¤  │ <    │ ␣   │ $    │ 0    │ ℕ    │ ,        │ .ℕ        │~ │ e   │ /y
+              │ ^    │ +   │ #                                            │ f   │ /z
+              │ >    │ -                                                  │ g   │ /a
+              │ =    │ (                                                  │ r   │ /f
+                                                                          │ s   │ /p
+                                                                          │ %   │ /n
+                                                                          │ p   │ /µ
+* Symbols:                                                                │ b   │ /m
+   ¤: any single-width Unicode BMP character                              │ o   │ /1
+   ␣: U+0020, space character                                             │ d   │ /k
+   ℕ: /[1-9][0-9]*/, an integer number                                    │ x   │ /M
+* other characters represent themselves;                                  │ X   │ /G
+* all fields are optional;                                                │ c   │ /T
+* a leading  fill chr must always be followed by an alignment specifier         │ /P
+* a unit prefix can only be added to fixed format `f` (e.g. `f/µ` for micro)    │ /E
+                                                                                │ /Z
+                                                                                │ /Y
 ```
 
 
