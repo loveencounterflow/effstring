@@ -446,10 +446,11 @@ v23 (without command line flag).
 
 ## Don't
 
-* <del> **`[–]`** accept fullwidth characters as fills </del>
+* <del>**`[–]`** accept fullwidth characters as fills</del> <ins>see next point</ins>
 * <del>**`[—]`** do not assume deletions can be performed per code unit in `_to_width()`</del> <ins>because
-  `d3-format` doesn't accept codepoints outside the BMP and because we chack for the fill character being
-  present we can actually assume a fill chr takes exactly a single string index position</ins>
+  `d3-format` doesn't accept codepoints outside the BMP and because we check for the fill character being
+  present in the output of `format()` we can actually assume a fill chr does take exactly a single string
+  index position</ins>
 
 
 
