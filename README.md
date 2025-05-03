@@ -254,10 +254,10 @@ these should be printed but be represented in kilometers instead of meters; we c
 prefix `/k`; the slash can be thought of as a division by the magnitude that `k` represents, namely 10³:
 
 ```
-f"#{ 123000 }:_>9,.3f/m;m"  ————> __123.000km
-f"#{ 7000   }:_>9,.3f/m;m"  ————> ____7.000km
-f"#{ 500    }:_>9,.3f/m;m"  ————> ____0.500km
-f"#{ 99     }:_>9,.3f/m;m"  ————> ____0.099km
+f"#{ 123000 }:_>9,.3f/k;m"  ————> __123.000km
+f"#{ 7000   }:_>9,.3f/k;m"  ————> ____7.000km
+f"#{ 500    }:_>9,.3f/k;m"  ————> ____0.500km
+f"#{ 99     }:_>9,.3f/k;m"  ————> ____0.099km
 ```
 
 
@@ -480,6 +480,18 @@ v23 (without command line flag).
   ever going to grok and use it, and they have no reason to; they can still use `:.12~g;` if it's that what
   they want
 * **`[—]`** consider to make other format specifier fields mandatory like the `type` field
+* **`[—]`** re-design SI unit prefix handling; do not use `locale.formatPrefix()`; instead, just multiply
+  value with the appropriate scale and tack on the desired prefix
+  * **`[—]`** implement less-used SI prefixes such as `c` (`cm`), `d` (`dm`), `h` (`hPa`)
+* **`[—]`** should be able to use `BigNum`s with `effstring`
+* **`[—]`** throw exception if interpolated value is not a number, instead fails silently:
+
+    ```coffee
+    @eq ( Ωfstr_181 = -> urge 'Ωfstr_182', rpr f"d = #{"helo"}:60.40f/k;m" ), null
+    @eq ( Ωfstr_181 = -> urge 'Ωfstr_182', rpr f"d = #{true}:60.40f/k;m" ), null
+    'd =                                                          NaNkm'
+    'd =                                       0.00100000000000000002km'
+    ```
 
 ## Is Done
 
@@ -497,6 +509,8 @@ v23 (without command line flag).
   `d3-format` doesn't accept codepoints outside the BMP and because we check for the fill character being
   present in the output of `format()` we can actually assume a fill chr does take exactly a single string
   index position</ins>
+* <del>**`[—]`** consider to use arbitrary units so users can write `f"distance: #{d}:10,.3f/km;"` instead
+  of `f"distance: #{d}:10,.3f/k;m"` (???)</del>
 
 
 
