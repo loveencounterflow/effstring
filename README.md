@@ -512,8 +512,26 @@ v23 (without command line flag).
   `f"#{1234}#>7.3f/k:;m"` should result in `"##1.234km"`, not `"#1.234km"` <del>(will probably obviate need
   for `has_si_unit_prefix` and `si_unit_correction`)</del>
 * **`[—]`** {c|sh}ould we extend EffString to handle dates (with `Intl.DateTimeFormat`)?
-* **`[—]`** re-implement EffString using `Intl.Number`? If not, write chapter "why not use / differences
-  with `Intl.Number`"
+* **`[—]`** re-implement EffString using `Intl.NumberFormat`? If not, write chapter "why not use / differences
+  with `Intl.NumberFormat`"
+  * **`[—]`** while `Intl.NumberFormat` as such is no drop-in replacement for EffString's / `d3-format`'s
+    intended use case—fixed-width formatting of numbers with free choice of grouping &c.—it does have
+    superior number formatting capabilities as demonstrated in
+    [`loveencounterflow/hengist-NG/dev/effstring/src/test-basics.coffee`](https://github.com/loveencounterflow/hengist-NG/blob/86a6c9d6451c5fd06b5de6547ffcf5c5a79ab6b6/dev/effstring/src/test-basics.coffee#L714).
+
+    When the number of significant digits is restricted to 16 (`new Intl.NumberFormat 'en-US', {
+    useGrouping: false, minimumSignificantDigits: 16, maximumSignificantDigits: 16, }`), appearances of
+    'ghost' or 'stray' digits is pared down greatly or even prevented (this being the limit of 64bit IEEE754
+    floating point format).
+
+    Compared to what is achievable without too many acrobatics by 'classical' means—`.toFixed()`,
+    `.toPrecision()` and so on—`Intl.NumberFormat` does write out one and two hundred digits before and
+    after the decimal point *without* switching to exponent notation.
+
+    The remaining task is, then, to take the output and insert leading zeros and/or trailing zeros and/or
+    group marks (thousands separators), adjust the decimal point, replace digits, and adjust the resulting
+    width to the current field.
+
 * **`[—]`** incorporate or create new package 'GeeString' where user can define format using a pattern that
   closely resembles desired output, as in `###,##,##.## ₹` (call it a
   ['skeleton'](https://messageformat.github.io/messageformat/api/number-skeleton.getnumberformatter/)?)
