@@ -484,14 +484,44 @@ v23 (without command line flag).
   value with the appropriate scale and tack on the desired prefix
   * **`[—]`** implement less-used SI prefixes such as `c` (`cm`), `d` (`dm`), `h` (`hPa`)
 * **`[—]`** should be able to use `BigNum`s with `effstring`
-* **`[—]`** throw exception if interpolated value is not a number, instead fails silently:
+* **`[—]`** `effstring` fails silently in cases (1), (2), while case (3) mysteriously causes
+  `Effstring_lib_syntax_error` (so raised by `d3-format`?):
 
     ```coffee
-    @eq ( Ωfstr_181 = -> urge 'Ωfstr_182', rpr f"d = #{"helo"}:60.40f/k;m" ), null
-    @eq ( Ωfstr_181 = -> urge 'Ωfstr_182', rpr f"d = #{true}:60.40f/k;m" ), null
+    @eq ( Ωfstr_181 = -> urge 'Ωfstr_182', rpr f"d = #{"helo"}:60.40f/k;m" ), null        ### (1) ###
+    @eq ( Ωfstr_181 = -> urge 'Ωfstr_182', rpr f"d = #{true}:60.40f/k;m" ), null          ### (2) ###
+    @eq ( Ωfstr_187 = -> urge 'Ωfstr_188', rpr f"d = #{123456789n}:60.40f/k;m" ), null    ### (3) ###
     'd =                                                          NaNkm'
     'd =                                       0.00100000000000000002km'
+    Error: an unexpected error occurred when calling task 'si_units_format_specifiers_updated';
+      `expected a result but got an an error: "Ωfstr___4 (Effstring_lib_syntax_error) illegal format specifier '60.40f'"`
     ```
+
+  this should be handled as follows:
+    * **`[—]`** if, in a numerical field (i.e. all field types except `c`), a value `x` appears that is
+      not a `float` (see remark below), look for setting `fallback` in locale CFG
+      * if `locale_cfg.fallback` is not set, throw an `Effstring_value_error`
+      * if `locale_cfg.fallback` is set to a `float` or a `text`, use that value to replace `x`
+      * if `locale_cfg.fallback` is set to a function, call that function and
+        * use its return value but only if it's a `float` or a `text`
+        * throw an `Effstring_value_error` if return value is `null`
+        * otherwise, throw an `Effstring_value_error` (which should point out bogus return value)
+      * prevent `locale_cfg.fallback` to be set to anything but a `float`, a `text`, or a `function`
+      * must decide whether `NaN`, `Infinity` count as `float`
+* **`[—]`** ensure that SI unit prefixes are *outside* of field width, decimal count; thus
+  `f"#{1234}#>7.3f/k:;m"` should result in `"##1.234km"`, not `"#1.234km"` <del>(will probably obviate need
+  for `has_si_unit_prefix` and `si_unit_correction`)</del>
+* **`[—]`** {c|sh}ould we extend EffString to handle dates (with `Intl.DateTimeFormat`)?
+* **`[—]`** re-implement EffString using `Intl.Number`? If not, write chapter "why not use / differences
+  with `Intl.Number`"
+* **`[—]`** incorporate or create new package 'GeeString' where user can define format using a pattern that
+  closely resembles desired output, as in `###,##,##.## ₹` (call it a
+  ['skeleton'](https://messageformat.github.io/messageformat/api/number-skeleton.getnumberformatter/)?)
+  * https://github.com/formatjs/formatjs/blob/main/packages/icu-skeleton-parser/number.ts
+  * https://unicode-org.github.io/icu/userguide/format_parse/numbers/skeletons.html
+* **`[—]`** we need ways to indicate whether a given field width is *maximal* (in which case contents will
+  be abridged) or *minimal* (in which wider contents will overflow the given width)
+* **`[—]`** user should be able to configure representation of `Infinity`, e.g. as `∞` or `ℵ₀`
 
 ## Is Done
 
