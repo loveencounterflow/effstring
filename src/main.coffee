@@ -186,19 +186,23 @@ new_ftag = ( hints... ) ->
           { discard, unit,  } = unit_match.groups
           fmt_spec = fmt_spec[ ... fmt_spec.length - discard.length ]
           try literal = ( ( locale.formatPrefix fmt_spec, _unit_magnitudes[ unit ] ) value ) catch error
-            throw new Effstring_lib_syntax_error 'Ωfstr___4', fmt_spec, error
+            ### d3-format own errors are unspecific, specific ones are likely from unexpected causes (and are therefore likely not fmt spec syntax errors) ###
+            throw error unless error.constructor is Error
+            throw new Effstring_lib_syntax_error 'Ωfstr___5', fmt_spec, error
         #...................................................................................................
         ### Handle format specifiers without SI unit prefix: ###
         else
           has_si_unit_prefix  = false
           try literal = ( ( locale.format fmt_spec ) value ) catch error
-            throw new Effstring_lib_syntax_error 'Ωfstr___5', fmt_spec, error
+            ### d3-format own errors are unspecific, specific ones are likely from unexpected causes (and are therefore likely not fmt spec syntax errors) ###
+            throw error unless error.constructor is Error
+            throw new Effstring_lib_syntax_error 'Ωfstr___7', fmt_spec, error
         #...................................................................................................
         ### Correct field width: ###
         if locale_cfg.fullwidth and ( fmt_cfg = D3F.formatSpecifier fmt_spec ).width?
           ### TAINT this should have been validated earlier ###
           unless ( width_of fmt_cfg.fill ) is 1
-            throw new Effstring_syntax_fillwidth_error 'Ωfstr___6', fmt_spec, fmt_cfg.fill
+            throw new Effstring_syntax_fillwidth_error 'Ωfstr___8', fmt_spec, fmt_cfg.fill
           literal = _to_width literal, fmt_cfg, has_si_unit_prefix
         #...................................................................................................
         R += literal + tail
