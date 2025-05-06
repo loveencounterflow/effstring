@@ -540,6 +540,9 @@ v23 (without command line flag).
 * **`[—]`** we need ways to indicate whether a given field width is *maximal* (in which case contents will
   be abridged) or *minimal* (in which wider contents will overflow the given width)
 * **`[—]`** user should be able to configure representation of `Infinity`, e.g. as `∞` or `ℵ₀`
+* **`[—]`** when splitting strings to insert group separators, splitting method should be configurable and
+  include `[...new Intl.Segmenter().segment( text )].map(s => s.segment)` as well as `Array.from text` (the
+  former will almost always be more correct but the latter is like 20x faster) as well as custom methods
 
 ## Is Done
 
