@@ -563,11 +563,18 @@ v23 (without command line flag).
   console.log(`${formattedMantissa}e${exponent}`); // → e.g. "1,235e+6"
   ```
 * **`[—]`** allow to declare replacements for characters (and RegEx patterns?) of a given (locale-dependent)
-  numerical representation: `{ 0: '𝟘', '.': ',', '.': ',' }`
-  * **`[—]`** the example shows that ordering
+  numerical representation: `replace: { 0: '𝟘', '.': ',', '.': ',' }`. **Note** the example shows that
+  ordering is (of course) relevant and that swapping of characters may occur which can only be done with an
+  intermediate value when performing step-by-step replacements; thus, we should compile a replacement
+  function that is triggered by a RegEx that matches on any of the relevant characters and returns the
+  configured replacement (`text.replace /[0.,]/vg, ( chr ) -> cfg.replace[ chr ]`)
 * **`[—]`** allow to declare SI unit prefixes that are calculated but not shown
 * **`[—]`** allow to declare numerical factors in place of SI unit prefixes (that will presumably never be
   shown?); ex.:
+* **`[—]`** allow to bundle several independently configured formatters to be used by a single tag function
+  such that they can be addressed by naming them in the fmt spec, ex.: `de = new_ftag 'de-DE'; gb = new_ftag
+  'en-GB'; f = combine { de, gb, }; echo f"#{sum_eur}!de:.3f; #{sum_gbp}!gb:.3f;"`; name `combine` and
+  format selector `}!de:` are preliminary
 
 ## Is Done
 
