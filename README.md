@@ -546,7 +546,7 @@ v23 (without command line flag).
   that does arbitrary separators at different intervals has been found
   * **`[—]`** splitting method should be configurable and include `[...new Intl.Segmenter().segment( text
     )].map(s => s.segment)` as well as `Array.from text` (the former will almost always be more correct but
-    the latter is like 20x faster) as well as custom methods
+    the latter is like 20x faster) as well as custom methods. Also compare to `'abcd'.split /(?=.)/`.
 * **`[—]`** support scientific and general exponential format using numerical superscripts, either utilizing
   Unicode superscripts or HTML `<sup>` tags:
 
