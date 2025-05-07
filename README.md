@@ -544,11 +544,24 @@ v23 (without command line flag).
   straightforward way to recognize visual glyphs, something that `Intl.Segmenter` can do best, and **(2)**
   while there are elegant expressions for inserting one separator at constant intervals, no generalization
   that does arbitrary separators at different intervals has been found
-   * **`[—]`** splitting method should be configurable and include `[...new Intl.Segmenter().segment( text
-     )].map(s => s.segment)` as well as `Array.from text` (the former will almost always be more correct but
-     the latter is like 20x faster) as well as custom methods
+  * **`[—]`** splitting method should be configurable and include `[...new Intl.Segmenter().segment( text
+    )].map(s => s.segment)` as well as `Array.from text` (the former will almost always be more correct but
+    the latter is like 20x faster) as well as custom methods
 * **`[—]`** support scientific and general exponential format using numerical superscripts, either utilizing
-  Unicode superscripts or HTML `<sup>` tags
+  Unicode superscripts or HTML `<sup>` tags:
+
+  ```js
+  const num = 1234567;
+  const expStr = num.toExponential(3); // "1.235e+6"
+  const [mantissa, exponent] = expStr.split('e');
+
+  const formattedMantissa = new Intl.NumberFormat('de-DE', {
+   minimumFractionDigits: 3,
+   maximumFractionDigits: 3
+  }).format(Number(mantissa));
+
+  console.log(`${formattedMantissa}e${exponent}`); // → e.g. "1,235e+6"
+  ```
 
 ## Is Done
 
