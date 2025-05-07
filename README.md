@@ -84,24 +84,24 @@ Bob************ has __$45,678.93 in their pocket.
 
 Calling `require 'effstring'` will return an object with these public members:
 
-*  **`f""`**: The default tag function (formatter) which assumes an `en-US` locale.
-*  **`new_ftag()`**: Method to create a new tag function with [custom locale settings](#locale-settings).
-*  **`Effstring_error`**: Abstract base class for errors thrown by `effstring`; actual errors will be either
-   `Effstring_syntax_error`, `Effstring_lib_syntax_error`, `Effstring_syntax_fillwidth_error`, or
-   `Effstring_validation_error` (also exported).
+* **`f""`**: The default tag function (formatter) which assumes an `en-US` locale.
+* **`new_ftag()`**: Method to create a new tag function with [custom locale settings](#locale-settings).
+* **`Effstring_error`**: Abstract base class for errors thrown by `effstring`; actual errors will be either
+  `Effstring_syntax_error`, `Effstring_lib_syntax_error`, `Effstring_syntax_fillwidth_error`, or
+  `Effstring_validation_error` (also exported).
 
 The following are also exported but only meant for internal use such as testing:
-*  **`_d3_format`**: The underlying `d3-format` library that does the heavy lifting.
-*  **`_default_locale`**: The [default locale](#locale-settings).
-*  **`_hint_as_locale_cfg()`**: Given either an object or a BCP47 locale code such as `en-GB` or `ja-JP`,
-   return an object with the locale settings.
-*  **`_locale_cfg_from_bcp47()`**: Given a BCP47 locale code such as `en-GB` or `ja-JP`,
-   return an object with the locale settings.
-*  **`_locale_cfg_from_hints()`**: Given a sequence of locale hints (BCP47 codes or objects), resolve to a
-   complete locale settings object with defaults filled out; settings coming later will overwriter ones that
-   come earlier (using `Object.assign()`).
-*  **`_fmtspec_re`**: The regular expression used to spot the optional format specifier that may follow an
-   EffString interpolated field.
+* **`_d3_format`**: The underlying `d3-format` library that does the heavy lifting.
+* **`_default_locale`**: The [default locale](#locale-settings).
+* **`_hint_as_locale_cfg()`**: Given either an object or a BCP47 locale code such as `en-GB` or `ja-JP`,
+  return an object with the locale settings.
+* **`_locale_cfg_from_bcp47()`**: Given a BCP47 locale code such as `en-GB` or `ja-JP`,
+  return an object with the locale settings.
+* **`_locale_cfg_from_hints()`**: Given a sequence of locale hints (BCP47 codes or objects), resolve to a
+  complete locale settings object with defaults filled out; settings coming later will overwriter ones that
+  come earlier (using `Object.assign()`).
+* **`_fmtspec_re`**: The regular expression used to spot the optional format specifier that may follow an
+  EffString interpolated field.
 
 ## Format Specifier
 
@@ -122,9 +122,9 @@ f"#{x}:[[fill]align][sign][symbol][zeros][width][thousands][.precision][~][type[
                                                                           │ %   │ /n
                                                                           │ p   │ /µ
 * Symbols:                                                                │ b   │ /m
-   ¤: any single-width Unicode BMP character                              │ o   │ /1
-   ␣: U+0020, space character                                             │ d   │ /k
-   ℕ: /[1-9][0-9]*/, an integer number                                    │ x   │ /M
+  ¤: any single-width Unicode BMP character                              │ o   │ /1
+  ␣: U+0020, space character                                             │ d   │ /k
+  ℕ: /[1-9][0-9]*/, an integer number                                    │ x   │ /M
 * other characters represent themselves;                                  │ X   │ /G
 * all fields are optional;                                                │ c   │ /T
 * a leading  fill chr must always be followed by an alignment specifier         │ /P
@@ -556,12 +556,18 @@ v23 (without command line flag).
   const [mantissa, exponent] = expStr.split('e');
 
   const formattedMantissa = new Intl.NumberFormat('de-DE', {
-   minimumFractionDigits: 3,
-   maximumFractionDigits: 3
+  minimumFractionDigits: 3,
+  maximumFractionDigits: 3
   }).format(Number(mantissa));
 
   console.log(`${formattedMantissa}e${exponent}`); // → e.g. "1,235e+6"
   ```
+* **`[—]`** allow to declare replacements for characters (and RegEx patterns?) of a given (locale-dependent)
+  numerical representation: `{ 0: '𝟘', '.': ',', '.': ',' }`
+  * **`[—]`** the example shows that ordering
+* **`[—]`** allow to declare SI unit prefixes that are calculated but not shown
+* **`[—]`** allow to declare numerical factors in place of SI unit prefixes (that will presumably never be
+  shown?); ex.:
 
 ## Is Done
 
