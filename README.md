@@ -575,6 +575,12 @@ v23 (without command line flag).
   such that they can be addressed by naming them in the fmt spec, ex.: `de = new_ftag 'de-DE'; gb = new_ftag
   'en-GB'; f = combine { de, gb, }; echo f"#{sum_eur}!de:.3f; #{sum_gbp}!gb:.3f;"`; name `combine` and
   format selector `}!de:` are preliminary
+* **`[—]`** [`slevithan/regex`](https://github.com/slevithan/regex) allows this usgae pattern: `( regex 'gm'
+  )"^.+"` where `'gm'` represents RegEx flags used to configure how to interpret the tagged string. This
+  pattern could be useful for EffString.
+* **`[—]`** ensure ANSI color codes do not count when computing width
+* **`[—]`** offer format code to allow to truncate too long fields
+* **`[—]`** offer option to draw Unicode table lines, headers, footers
 
 ## Is Done
 
