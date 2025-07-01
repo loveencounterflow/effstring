@@ -578,9 +578,23 @@ v23 (without command line flag).
 * **`[—]`** [`slevithan/regex`](https://github.com/slevithan/regex) allows this usgae pattern: `( regex 'gm'
   )"^.+"` where `'gm'` represents RegEx flags used to configure how to interpret the tagged string. This
   pattern could be useful for EffString.
-* **`[—]`** ensure ANSI color codes do not count when computing width
-* **`[—]`** offer format code to allow to truncate too long fields
 * **`[—]`** offer option to draw Unicode table lines, headers, footers
+* **`[—]`** **BUG**: the first `info()` call hangs, the second one works:
+  ```coffee
+  f = ( a, b, P... ) ->
+    # cfg = Object.assign ( Object.create null ), { a, b, }, P...
+    cfg = Object.assign {}, { a, b, }, P...
+    # info 'Ω_154', f"#{GUY.trm.gold [ arguments..., ]}:>30c;", GUY.trm.blue { a, b, cfg, } ### HANGS ###
+    info 'Ω_155', ( GUY.trm.gold [ arguments..., ] ), GUY.trm.blue { a, b, cfg, }
+  f 1
+  f 1, 2, 3
+  f 1, 2, k: 'K'
+  f 1, 2, k: 'K', 9, m: 'M'
+  ```
+* **`[—]`** fix handling of ANSI escapes (not properly counted in `to_width()` / `width_of()`?)
+* **`[—]`** implement minimum, maximum field widths so fields are printed with at least `m` or at most `n`
+  characters of width; present `width` acts like `m: width, n: Infinity`; needs ellipsis character
+
 
 ## Is Done
 
