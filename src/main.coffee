@@ -135,12 +135,17 @@ _to_width = ( text, fmt_cfg, has_si_unit_prefix ) ->
   switch fmt_cfg.align
     #.......................................................................................................
     when '<'
+      ### TAINT don't re-calculate width, just inc/dec by width of fmt_cfg.fill ###
       while ( text.endsWith fmt_cfg.fill ) and ( width_of text ) > field_width
         text = text[ ... text.length - 1 ]
+      while ( width_of text ) < field_width
+        text += fmt_cfg.fill
     #.......................................................................................................
     when '>'
       while ( text.startsWith fmt_cfg.fill ) and ( width_of text ) > field_width
         text = text[ 1 ... ]
+      while ( width_of text ) < field_width
+        text = fmt_cfg.fill + text
     #.......................................................................................................
     when '^'
       p = 0
