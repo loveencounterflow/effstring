@@ -483,7 +483,7 @@ v23 (without command line flag).
 * **`[—]`** re-design SI unit prefix handling; do not use `locale.formatPrefix()`; instead, just multiply
   value with the appropriate scale and tack on the desired prefix
   * **`[—]`** implement less-used SI prefixes such as `c` (`cm`), `d` (`dm`), `h` (`hPa`)
-* **`[—]`** should be able to use `BigNum`s with `effstring`
+* **`[—]`** should be able to use `BigInt`s with `effstring`
 * **`[—]`** `effstring` fails silently in cases (1), (2), while case (3) mysteriously causes
   `Effstring_lib_syntax_error` (so raised by `d3-format`?):
 
@@ -592,6 +592,10 @@ v23 (without command line flag).
   f 1, 2, k: 'K', 9, m: 'M'
   ```
 * **`[—]`** fix handling of ANSI escapes (not properly counted in `to_width()` / `width_of()`?)
+  * **`[+]`** for alignment `<`
+  * **`[+]`** for alignment `>`
+  * **`[—]`** for alignment `^`
+  * **`[—]`** for alignment `=`
 * **`[—]`** implement minimum, maximum field widths so fields are printed with at least `m` or at most `n`
   characters of width; present `width` acts like `m: width, n: Infinity`; needs ellipsis character
 
@@ -607,7 +611,7 @@ v23 (without command line flag).
 
 ## Don't
 
-* <del>**`[–]`** accept fullwidth characters as fills</del> <ins>see next point</ins>
+* <del>**`[—]`** accept fullwidth characters as fills</del> <ins>see next point</ins>
 * <del>**`[—]`** do not assume deletions can be performed per code unit in `_to_width()`</del> <ins>because
   `d3-format` doesn't accept codepoints outside the BMP and because we check for the fill character being
   present in the output of `format()` we can actually assume a fill chr does take exactly a single string
